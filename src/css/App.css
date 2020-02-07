@@ -78,3 +78,15 @@
 .month-Nov {
   background-color: var(--oc-yellow-4);
 }
+
+/* selection container */
+.selection {
+  position: relative;
+}
+
+/* selection box */
+.selection-border {
+  background: rgba(0, 162, 255, 0.4);
+  position: absolute;
+  z-index: 99;
+}

@@ -37,32 +37,32 @@ export class WeekRow extends React.Component<IWeekRowProps, {}> {
 
 	render() {
 		return (
-			<tr>
-				<span className={'weekNumber ' + this.isCurrentWeek}>
+			<>
+				<td className={'weekNumber ' + this.isCurrentWeek}>
 					#{this.props.monday.format('ww')}
-				</span>
-				<span className={this.isToday(0)}>
+				</td>
+				<td className={this.isToday(0)}>
 					{this.day(0)}
-				</span>
-				<span className={this.isToday(1)}>
+				</td>
+				<td className={this.isToday(1)}>
 					{this.day(1)}
-				</span>
-				<span className={this.isToday(2)}>
+				</td>
+				<td className={this.isToday(2)}>
 					{this.day(2)}
-				</span>
-				<span className={this.isToday(3)}>
+				</td>
+				<td className={this.isToday(3)}>
 					{this.day(3)}
-				</span>
-				<span className={this.isToday(4)}>
+				</td>
+				<td className={this.isToday(4)}>
 					{this.day(4)}
-				</span>
-				<span className={'weekend ' + this.isToday(5)}>
+				</td>
+				<td className={'weekend ' + this.isToday(5)}>
 					{this.day(5)}
-				</span>
-				<span className={'weekend ' + this.isToday(6)}>
+				</td>
+				<td className={'weekend ' + this.isToday(6)}>
 					{this.day(6)}
-				</span>
-			</tr>
+				</td>
+			</>
 		);
 	}
 

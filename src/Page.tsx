@@ -5,7 +5,8 @@ import Nav from 'react-bootstrap/Nav';
 import {WeekRow} from "./components/WeekRow";
 import {Generator} from "./model/generator";
 import moment from "moment";
-import TableDragSelect from "react-table-drag-select";
+import Table from "react-bootstrap/Table";
+import Selection from './components/Selection'
 
 export class Page extends React.Component<any, any> {
 
@@ -13,26 +14,13 @@ export class Page extends React.Component<any, any> {
 
 	state = {
 		weeks: [],
-		cells: [
-			[false, false, false, false, false, false, false, false],	// header
-		],
 	};
 
 	componentDidMount(): void {
 		let weeks = this.generator.weeks;
 		this.setState(() => ({
 			weeks: weeks,
-			cells: this.generateFalseTable(weeks),
 		}));
-	}
-
-	generateFalseTable(weeks: moment.Moment[]) {
-		const cells: false[][] = [];
-		for (let monday of weeks) {
-			cells.push(Array(8).fill(false));
-		}
-		console.log(cells);
-		return cells;
 	}
 
 	render() {
@@ -49,10 +37,7 @@ export class Page extends React.Component<any, any> {
 					</Navbar.Collapse>
 				</Navbar>
 				<Container>
-					<TableDragSelect
-						value={this.state.cells}
-						onChange={cells => this.setState({cells})}
-					>
+					<Table>
 						<thead>
 						<tr>
 							<td>Week #</td>
@@ -65,13 +50,13 @@ export class Page extends React.Component<any, any> {
 							<td>Sunday</td>
 						</tr>
 						</thead>
-						<tbody>
+						<Selection>
 						{this.state.weeks.map((monday: moment.Moment) => (
 							<WeekRow key={monday.format('YYYY-MM-DD')}
 									 monday={monday}/>
 						))}
-						</tbody>
-					</TableDragSelect>
+						</Selection>
+					</Table>
 				</Container>
 			</>
 		);
