@@ -2,9 +2,7 @@ import React from "react";
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import {WeekRow} from "./components/WeekRow";
 import {Generator} from "./model/generator";
-import moment from "moment";
 import Table from "react-bootstrap/Table";
 import {TBodySelection} from "./components/TBodySelection";
 
@@ -15,10 +13,6 @@ export class Page extends React.Component<any, any> {
 	state = {
 		weeks: [],
 	};
-
-	constructor(props) {
-		super(props);
-	}
 
 	componentDidMount(): void {
 		let weeks = this.generator.weeks;

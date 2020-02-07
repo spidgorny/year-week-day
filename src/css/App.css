@@ -90,3 +90,7 @@
   position: absolute;
   z-index: 99;
 }
+
+.selected {
+  background-color: var(--oc-orange-9) !important;
+}

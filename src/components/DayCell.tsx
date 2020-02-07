@@ -17,22 +17,18 @@ export class DayCell extends React.Component<IDayCellProps, IDayCellState> {
 	state = {
 	};
 
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount(): void {
 	}
 
 	render() {
 		return (
-			<td className={this.props.className}
+			<td className={this.props.className + (this.props.isSelected ? ' selected' : '')}
 				onMouseDown={this._onMouseDown.bind(this) as unknown as MouseEventHandler}
 				onMouseEnter={this._onMouseEnter.bind(this) as unknown as MouseEventHandler}
 				onMouseUp={this._onMouseUp.bind(this) as unknown as MouseEventHandler}
 			>
 				{this.props.children}
-				{this.props.isSelected ? 'YES' : ''}
+
 			</td>
 		)
 	}

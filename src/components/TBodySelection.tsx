@@ -19,7 +19,7 @@ export class TBodySelection extends React.Component<ITBodySelectionProps, ITBody
 	};
 
 	reportSelected(date: moment.Moment) {
-		console.log(date.format('YYYY-MM-DD'));
+		// console.log(date.format('YYYY-MM-DD'));
 		if (!this.state || !this.state.minDate || !this.state.maxDate) {
 			this.setState((state) => ({
 				...state,
@@ -36,7 +36,12 @@ export class TBodySelection extends React.Component<ITBodySelectionProps, ITBody
 	}
 
 	reportMouseUp(date: moment.Moment) {
-		console.log('done');
+		if (!this.state.minDate || !this.state.maxDate) {
+			return;
+		}
+		let min = this.state.minDate as unknown as moment.Moment;
+		let max = this.state.maxDate as unknown as moment.Moment;
+		const name = prompt(`What happens between ${min.format('YYYY-MM-DD')} and ${max.format('YYYY-MM-DD')}?`)
 		this.setState((state) => ({
 			...state,
 			minDate: null,
@@ -47,14 +52,6 @@ export class TBodySelection extends React.Component<ITBodySelectionProps, ITBody
 	render() {
 		return (
 			<tbody>
-			<tr>
-				<td colSpan={2}>
-					{this.state.minDate ? (this.state.minDate as unknown as moment.Moment).format('YYYY-MM-DD') : '&nbsp;'}
-				</td>
-				<td colSpan={2}>
-					{this.state.maxDate ? (this.state.maxDate as unknown as moment.Moment).format('YYYY-MM-DD') : '&nbsp;'}
-				</td>
-			</tr>
 			{this.props.weeks.map((monday: moment.Moment) => (
 				<WeekRow key={monday.format('YYYY-MM-DD')}
 						 monday={monday}
