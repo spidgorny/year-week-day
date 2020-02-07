@@ -1,4 +1,4 @@
-const moment = require('moment');
+import moment from "moment";
 
 export class Generator {
 
@@ -9,7 +9,7 @@ export class Generator {
 	}
 
 	get weeks() {
-		const weeks = [];
+		const weeks: moment.Moment[] = [];
 		const nextYear = moment().startOf('year').add(1, 'y');
 		// console.log(nextYear.format('YYYY-MM-DD'));
 
