@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+@import '../../node_modules/open-color/open-color.css';
+.weekend {
+  background-color: var(--oc-yellow-0);
+}
