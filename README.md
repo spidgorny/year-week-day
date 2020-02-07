@@ -8,4 +8,6 @@ This is an experiment to render the year per weeks. It allows you to drag-select
     Try Now
 </a>
 
+
 <img src="docs/assets/preview.png" width="50%"/>
+
