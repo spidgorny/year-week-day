@@ -6,9 +6,7 @@ import {WeekRow} from "./components/WeekRow";
 import {Generator} from "./model/generator";
 import moment from "moment";
 import Table from "react-bootstrap/Table";
-import Selection from './components/Selection'
 import {TBodySelection} from "./components/TBodySelection";
-import ReactDOM from "react-dom";
 
 export class Page extends React.Component<any, any> {
 
@@ -18,11 +16,8 @@ export class Page extends React.Component<any, any> {
 		weeks: [],
 	};
 
-	selection: any;
-
 	constructor(props) {
 		super(props);
-		this.selection = React.createRef();
 	}
 
 	componentDidMount(): void {
@@ -59,13 +54,7 @@ export class Page extends React.Component<any, any> {
 							<td>Sunday</td>
 						</tr>
 						</thead>
-						<TBodySelection ref={this.selection}>
-						{this.state.weeks.map((monday: moment.Moment) => (
-							<WeekRow key={monday.format('YYYY-MM-DD')}
-									 monday={monday}
-									 reportRef={(ref) => this.selection.current.appendRef(ref)}
-							/>
-						))}
+						<TBodySelection weeks={this.state.weeks}>
 						</TBodySelection>
 					</Table>
 				</Container>
