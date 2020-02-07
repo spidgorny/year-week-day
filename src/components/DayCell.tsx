@@ -1,5 +1,6 @@
 import React, {MouseEventHandler} from "react";
 import moment from "moment";
+import {IEvent} from "./TBodySelection";
 
 interface IDayCellProps {
 	className: string;
@@ -7,6 +8,7 @@ interface IDayCellProps {
 	reportSelected: Function;
 	reportMouseUp: Function;
 	isSelected?: boolean;
+	events: IEvent[];
 }
 
 interface IDayCellState {
@@ -14,21 +16,35 @@ interface IDayCellState {
 
 export class DayCell extends React.Component<IDayCellProps, IDayCellState> {
 
-	state = {
-	};
+	eventNames: string[] = [];
 
-	componentDidMount(): void {
+	get classNames() {
+		const classes: string[] = [];
+		classes.push(this.props.className);
+		classes.push(this.props.isSelected ? ' selected' : '');
+
+		this.eventNames = [];
+		this.props.events.map((event: IEvent) => {
+			const start = moment(event.startDate);
+			const end = moment(event.endDate);
+			if (this.props.date.isSame(start) || this.props.date.isBetween(start, end) || this.props.date.isSame(end)) {
+				classes.push('event-' + event.id);
+				this.eventNames.push(event.name);
+			}
+		});
+
+		return classes.join(' ');
 	}
 
 	render() {
 		return (
-			<td className={this.props.className + (this.props.isSelected ? ' selected' : '')}
+			<td className={this.classNames}
 				onMouseDown={this._onMouseDown.bind(this) as unknown as MouseEventHandler}
 				onMouseEnter={this._onMouseEnter.bind(this) as unknown as MouseEventHandler}
 				onMouseUp={this._onMouseUp.bind(this) as unknown as MouseEventHandler}
 			>
-				{this.props.children}
-
+				{this.props.children} &nbsp;
+				{this.eventNames.join(' ')}
 			</td>
 		)
 	}
