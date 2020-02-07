@@ -31,6 +31,7 @@ export class DayCell extends React.Component<IDayCellProps, IDayCellState> {
 				classes.push('event-' + event.id);
 				this.eventNames.push(event.name);
 			}
+			return true;
 		});
 
 		return classes.join(' ');
