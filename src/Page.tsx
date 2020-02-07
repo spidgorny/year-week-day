@@ -50,12 +50,14 @@ export class Page extends React.Component<any, any> {
 							<td>Sunday</td>
 						</tr>
 						</thead>
-						<Selection>
+						<tbody>
 						{this.state.weeks.map((monday: moment.Moment) => (
+								<Selection>
 							<WeekRow key={monday.format('YYYY-MM-DD')}
 									 monday={monday}/>
+								</Selection>
 						))}
-						</Selection>
+						</tbody>
 					</Table>
 				</Container>
 			</>

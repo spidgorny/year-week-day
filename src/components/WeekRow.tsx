@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
+import {DayCell} from "./DayCell";
 
 interface IWeekRowProps {
 	monday: moment.Moment;
+	isSelected?: boolean;
 }
 
 export class WeekRow extends React.Component<IWeekRowProps, {}> {
@@ -10,13 +12,13 @@ export class WeekRow extends React.Component<IWeekRowProps, {}> {
 	isToday(plus: number) {
 		const classes: string[] = [];
 		const today = moment();
-		let dayOfTheWeek = this.props.monday.clone().add(plus,  'd');
+		let dayOfTheWeek = this.props.monday.clone().add(plus, 'd');
 		if (dayOfTheWeek.isSame(today, 'day')) {
 			classes.push('bg-success');
 		}
 
 		// month, Jan, Feb
-		const month = dayOfTheWeek.format('MMM');
+		const month = dayOfTheWeek.locale('en').format('MMM');
 		classes.push('month-' + month);
 
 		return classes.join(' ');
@@ -40,28 +42,29 @@ export class WeekRow extends React.Component<IWeekRowProps, {}> {
 			<>
 				<td className={'weekNumber ' + this.isCurrentWeek}>
 					#{this.props.monday.format('ww')}
+					{this.props.isSelected ? 'YES' : ''}
 				</td>
-				<td className={this.isToday(0)}>
+				<DayCell className={this.isToday(0)}>
 					{this.day(0)}
-				</td>
-				<td className={this.isToday(1)}>
+				</DayCell>
+				<DayCell className={this.isToday(1)}>
 					{this.day(1)}
-				</td>
-				<td className={this.isToday(2)}>
+				</DayCell>
+				<DayCell className={this.isToday(2)}>
 					{this.day(2)}
-				</td>
-				<td className={this.isToday(3)}>
+				</DayCell>
+				<DayCell className={this.isToday(3)}>
 					{this.day(3)}
-				</td>
-				<td className={this.isToday(4)}>
+				</DayCell>
+				<DayCell className={this.isToday(4)}>
 					{this.day(4)}
-				</td>
-				<td className={'weekend ' + this.isToday(5)}>
+				</DayCell>
+				<DayCell className={'weekend ' + this.isToday(5)}>
 					{this.day(5)}
-				</td>
-				<td className={'weekend ' + this.isToday(6)}>
+				</DayCell>
+				<DayCell className={'weekend ' + this.isToday(6)}>
 					{this.day(6)}
-				</td>
+				</DayCell>
 			</>
 		);
 	}

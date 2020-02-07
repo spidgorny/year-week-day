@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-var _ = require('lodash');
-var React = require('react');
-var createReactClass = require('create-react-class');
 
-var Selection = createReactClass({
+const _ = require('lodash');
+const React = require('react');
+const createReactClass = require('create-react-class');
+
+const Selection = createReactClass({
 
 	propTypes: {
 		enabled: PropTypes.bool,
@@ -14,7 +15,7 @@ var Selection = createReactClass({
 	/**
 	 * Component default props
 	 */
-	getDefaultProps: function() {
+	getDefaultProps: function () {
 		return {
 			enabled: true,
 			onSelectionChange: _.noop,
@@ -24,7 +25,7 @@ var Selection = createReactClass({
 	/**
 	 * Component initial state
 	 */
-	getInitialState: function() {
+	getInitialState: function () {
 		return {
 			mouseDown: false,
 			startPoint: null,
@@ -38,16 +39,16 @@ var Selection = createReactClass({
 	/**
 	 * On componentn mount
 	 */
-	componentWillMount: function() {
+	componentWillMount: function () {
 		this.selectedChildren = {};
 	},
 
 	/**
 	 * On component props change
 	 */
-	componentWillReceiveProps: function(nextProps) {
-		var nextState = {};
-		if(!nextProps.enabled) {
+	componentWillReceiveProps: function (nextProps) {
+		const nextState = {};
+		if (!nextProps.enabled) {
 			nextState.selectedItems = {};
 		}
 		this.setState(nextState);
@@ -56,8 +57,8 @@ var Selection = createReactClass({
 	/**
 	 * On component update
 	 */
-	componentDidUpdate: function() {
-		if(this.state.mouseDown && !_.isNull(this.state.selectionBox)) {
+	componentDidUpdate: function () {
+		if (this.state.mouseDown && !_.isNull(this.state.selectionBox)) {
 			this._updateCollidingChildren(this.state.selectionBox);
 		}
 	},
@@ -65,12 +66,12 @@ var Selection = createReactClass({
 	/**
 	 * On root element mouse down
 	 */
-	_onMouseDown: function(e) {
-		if(!this.props.enabled || e.button === 2 || e.nativeEvent.which === 2) {
+	_onMouseDown: function (e) {
+		if (!this.props.enabled || e.button === 2 || e.nativeEvent.which === 2) {
 			return;
 		}
-		var nextState = {};
-		if(e.ctrlKey || e.altKey || e.shiftKey) {
+		const nextState = {};
+		if (e.ctrlKey || e.altKey || e.shiftKey) {
 			nextState.appendMode = true;
 		}
 		nextState.mouseDown = true;
@@ -86,7 +87,7 @@ var Selection = createReactClass({
 	/**
 	 * On document element mouse up
 	 */
-	_onMouseUp: function(e) {
+	_onMouseUp: function (e) {
 		window.document.removeEventListener('mousemove', this._onMouseMove);
 		window.document.removeEventListener('mouseup', this._onMouseUp);
 		this.setState({
@@ -102,10 +103,10 @@ var Selection = createReactClass({
 	/**
 	 * On document element mouse move
 	 */
-	_onMouseMove: function(e) {
+	_onMouseMove: function (e) {
 		e.preventDefault();
-		if(this.state.mouseDown) {
-			var endPoint = {
+		if (this.state.mouseDown) {
+			const endPoint = {
 				x: e.pageX,
 				y: e.pageY
 			};
@@ -119,52 +120,51 @@ var Selection = createReactClass({
 	/**
 	 * Render
 	 */
-	render: function() {
-		var className = 'selection ' + (this.state.mouseDown ? 'dragging' : '');
-		return(
-			<tbody className={className} ref='selectionBox' onMouseDown={this._onMouseDown}>
-				{this.renderChildren()}
-				{this.renderSelectionBox()}
-			</tbody>
+	render: function () {
+		const className = 'selection ' + (this.state.mouseDown ? 'dragging' : '');
+		return (
+			<tr className={className} ref='selectionBox' onMouseDown={this._onMouseDown}>
+			{this.renderChildren()}
+			{this.renderSelectionBox()}
+			</tr>
 		);
 	},
 
 	/**
 	 * Render children
 	 */
-	renderChildren: function() {
-		var index = 0;
-		var _this = this;
-		var tmpChild;
-		return React.Children.map(this.props.children, function(child) {
-			var tmpKey = _.isNull(child.key) ? index++ : child.key;
-			var isSelected = _.has(_this.selectedChildren, tmpKey);
+	renderChildren: function () {
+		let index = 0;
+		const _this = this;
+		let tmpChild;
+		return React.Children.map(this.props.children, function (child) {
+			const tmpKey = _.isNull(child.key) ? index++ : child.key;
+			const isSelected = _.has(_this.selectedChildren, tmpKey);
 			tmpChild = React.cloneElement(child, {
 				ref: tmpKey,
 				selectionParent: _this,
-				isSelected: isSelected
-			});
-			return React.createElement('tr', {
+				isSelected: isSelected,
 				className: 'select-box ' + (isSelected ? 'selected' : ''),
-				onClickCapture: function(e) {
-					if((e.ctrlKey || e.altKey || e.shiftKey) && _this.props.enabled) {
+				onClickCapture: function (e) {
+					if ((e.ctrlKey || e.altKey || e.shiftKey) && _this.props.enabled) {
 						e.preventDefault();
 						e.stopPropagation();
 						_this.selectItem(tmpKey, !_.has(_this.selectedChildren, tmpKey));
 					}
 				}
-			}, tmpChild);
+			});
+			return tmpChild;
 		});
 	},
 
 	/**
 	 * Render selection box
 	 */
-	renderSelectionBox: function() {
-		if(!this.state.mouseDown || _.isNull(this.state.endPoint) || _.isNull(this.state.startPoint)) {
+	renderSelectionBox: function () {
+		if (!this.state.mouseDown || _.isNull(this.state.endPoint) || _.isNull(this.state.startPoint)) {
 			return null;
 		}
-		return(
+		return (
 			<div className='selection-border' style={this.state.selectionBox}></div>
 		);
 	},
@@ -174,11 +174,10 @@ var Selection = createReactClass({
 	 * @param {string} key the item's target key value
 	 * @param {boolean} isSelected the item's target selection status
 	 */
-	selectItem: function(key, isSelected) {
-		if(isSelected) {
+	selectItem: function (key, isSelected) {
+		if (isSelected) {
 			this.selectedChildren[key] = isSelected;
-		}
-		else {
+		} else {
 			delete this.selectedChildren[key];
 		}
 		this.props.onSelectionChange.call(null, _.keys(this.selectedChildren));
@@ -188,9 +187,9 @@ var Selection = createReactClass({
 	/**
 	 * Select all items
 	 */
-	selectAll: function() {
-		_.each(this.refs, function(ref, key) {
-			if(key !== 'selectionBox') {
+	selectAll: function () {
+		_.each(this.refs, function (ref, key) {
+			if (key !== 'selectionBox') {
 				this.selectedChildren[key] = true;
 			}
 		}.bind(this));
@@ -199,7 +198,7 @@ var Selection = createReactClass({
 	/**
 	 * Manually clear selected items
 	 */
-	clearSelection: function() {
+	clearSelection: function () {
 		this.selectedChildren = {};
 		this.props.onSelectionChange.call(null, []);
 		this.forceUpdate();
@@ -208,8 +207,8 @@ var Selection = createReactClass({
 	/**
 	 * Detect 2D box intersection
 	 */
-	_boxIntersects: function(boxA, boxB) {
-		if(boxA.left <= boxB.left + boxB.width &&
+	_boxIntersects: function (boxA, boxB) {
+		if (boxA.left <= boxB.left + boxB.width &&
 			boxA.left + boxA.width >= boxB.left &&
 			boxA.top <= boxB.top + boxB.height &&
 			boxA.top + boxA.height >= boxB.top) {
@@ -222,12 +221,12 @@ var Selection = createReactClass({
 	 * Updates the selected items based on the
 	 * collisions with selectionBox
 	 */
-	_updateCollidingChildren: function(selectionBox) {
-		var tmpNode = null;
-		var tmpBox = null;
-		var _this = this;
-		_.each(this.refs, function(ref, key) {
-			if(key !== 'selectionBox') {
+	_updateCollidingChildren: function (selectionBox) {
+		let tmpNode = null;
+		let tmpBox = null;
+		const _this = this;
+		_.each(this.refs, function (ref, key) {
+			if (key !== 'selectionBox') {
 				tmpNode = ReactDOM.findDOMNode(ref);
 				tmpBox = {
 					top: tmpNode.offsetTop,
@@ -235,11 +234,10 @@ var Selection = createReactClass({
 					width: tmpNode.clientWidth,
 					height: tmpNode.clientHeight
 				};
-				if(_this._boxIntersects(selectionBox, tmpBox)) {
+				if (_this._boxIntersects(selectionBox, tmpBox)) {
 					_this.selectedChildren[key] = true;
-				}
-				else {
-					if(!_this.state.appendMode) {
+				} else {
+					if (!_this.state.appendMode) {
 						delete _this.selectedChildren[key];
 					}
 				}
@@ -250,19 +248,19 @@ var Selection = createReactClass({
 	/**
 	 * Calculate selection box dimensions
 	 */
-	_calculateSelectionBox: function(startPoint, endPoint) {
-		if(!this.state.mouseDown || _.isNull(endPoint) || _.isNull(startPoint)) {
+	_calculateSelectionBox: function (startPoint, endPoint) {
+		if (!this.state.mouseDown || _.isNull(endPoint) || _.isNull(startPoint)) {
 			return null;
 		}
-		console.log(this.refs);
-		var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox);
+		//console.log(this.refs);
+		const parentNode = ReactDOM.findDOMNode(this.refs.selectionBox);
 		if (!parentNode) {
 			return;
 		}
-		var left = Math.min(startPoint.x, endPoint.x) - parentNode.offsetLeft;
-		var top = Math.min(startPoint.y, endPoint.y) - parentNode.offsetTop;
-		var width = Math.abs(startPoint.x - endPoint.x);
-		var height = Math.abs(startPoint.y - endPoint.y);
+		const left = Math.min(startPoint.x, endPoint.x) - parentNode.offsetLeft;
+		const top = Math.min(startPoint.y, endPoint.y) - parentNode.offsetTop;
+		const width = Math.abs(startPoint.x - endPoint.x);
+		const height = Math.abs(startPoint.y - endPoint.y);
 		return {
 			left: left,
 			top: top,
