@@ -39,5 +39,42 @@
 
 @import '../../node_modules/open-color/open-color.css';
 .weekend {
-  background-color: var(--oc-yellow-0);
+  background-color: var(--oc-yellow-0) !important;
+}
+
+.month-Dec {
+  background-color: var(--oc-blue-2);
+}
+.month-Jan {
+  background-color: var(--oc-blue-3);
+}
+.month-Feb {
+  background-color: var(--oc-blue-4);
+}
+.month-Mar {
+  background-color: var(--oc-green-2);
+}
+.month-Apr {
+  background-color: var(--oc-green-3);
+}
+.month-May {
+  background-color: var(--oc-green-4);
+}
+.month-Jun {
+  background-color: var(--oc-red-2);
+}
+.month-Jul {
+  background-color: var(--oc-red-3);
+}
+.month-Aug {
+  background-color: var(--oc-red-4);
+}
+.month-Sep {
+  background-color: var(--oc-yellow-2);
+}
+.month-Oct {
+  background-color: var(--oc-yellow-3);
+}
+.month-Nov {
+  background-color: var(--oc-yellow-4);
 }

@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Table from "react-bootstrap/Table";
 import {WeekRow} from "./components/WeekRow";
 import {Generator} from "./model/generator";
+import moment from "moment";
 
 export class Page extends React.Component<any, any> {
 
@@ -48,8 +49,9 @@ export class Page extends React.Component<any, any> {
 						</tr>
 						</thead>
 						<tbody>
-						{this.state.weeks.map(monday => (
-							<WeekRow monday={monday}/>
+						{this.state.weeks.map((monday: moment.Moment) => (
+							<WeekRow key={monday.format('YYYY-MM-DD')}
+								monday={monday}/>
 						))}
 						</tbody>
 					</Table>
