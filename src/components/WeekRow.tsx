@@ -4,7 +4,7 @@ import {DayCell} from "./DayCell";
 
 interface IWeekRowProps {
 	monday: moment.Moment;
-	isSelected?: boolean;
+	reportRef: Function;
 }
 
 export class WeekRow extends React.Component<IWeekRowProps, {}> {
@@ -39,33 +39,32 @@ export class WeekRow extends React.Component<IWeekRowProps, {}> {
 
 	render() {
 		return (
-			<>
+			<tr>
 				<td className={'weekNumber ' + this.isCurrentWeek}>
 					#{this.props.monday.format('ww')}
-					{this.props.isSelected ? 'YES' : ''}
 				</td>
-				<DayCell className={this.isToday(0)}>
+				<DayCell className={this.isToday(0)} reportRef={this.props.reportRef}>
 					{this.day(0)}
 				</DayCell>
-				<DayCell className={this.isToday(1)}>
+				<DayCell className={this.isToday(1)} reportRef={this.props.reportRef}>
 					{this.day(1)}
 				</DayCell>
-				<DayCell className={this.isToday(2)}>
+				<DayCell className={this.isToday(2)} reportRef={this.props.reportRef}>
 					{this.day(2)}
 				</DayCell>
-				<DayCell className={this.isToday(3)}>
+				<DayCell className={this.isToday(3)} reportRef={this.props.reportRef}>
 					{this.day(3)}
 				</DayCell>
-				<DayCell className={this.isToday(4)}>
+				<DayCell className={this.isToday(4)} reportRef={this.props.reportRef}>
 					{this.day(4)}
 				</DayCell>
-				<DayCell className={'weekend ' + this.isToday(5)}>
+				<DayCell className={'weekend ' + this.isToday(5)} reportRef={this.props.reportRef}>
 					{this.day(5)}
 				</DayCell>
-				<DayCell className={'weekend ' + this.isToday(6)}>
+				<DayCell className={'weekend ' + this.isToday(6)} reportRef={this.props.reportRef}>
 					{this.day(6)}
 				</DayCell>
-			</>
+			</tr>
 		);
 	}
 
