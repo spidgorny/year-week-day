@@ -1,4 +1,6 @@
-// @ts-ignore
-test('adds 1 + 2 to equal 3', () => {
-	expect((1 + 2)).toBe(3);
+import { test } from "node:test";
+import expect from "expect";
+
+test("adds 1 + 2 to equal 3", () => {
+  expect(1 + 2).toBe(3);
 });
