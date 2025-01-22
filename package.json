@@ -10,10 +10,16 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@sequelize/postgres": "^7.0.0-alpha.43",
 		"bootstrap": "^5.3.3",
+		"bytes": "^3.1.2",
 		"classnames": "^2.5.1",
 		"dexie": "^4.0.11",
+		"dotenv": "^16.4.7",
+		"dotenv-expand": "^12.0.1",
+		"find-up": "^7.0.0",
 		"lodash": "^4.17.21",
+		"luxon": "^3.5.0",
 		"moment": "^2.30.1",
 		"momentjs": "^2.0.0",
 		"next": "15.1.5",
@@ -24,7 +30,8 @@
 		"react-dom": "^19.0.0",
 		"react-drag-select": "^1.0.0",
 		"react-table-drag-select": "^0.3.1",
-		"sass": "^1.83.4"
+		"sass": "^1.83.4",
+		"tsx": "^4.19.2"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
