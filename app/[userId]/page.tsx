@@ -3,15 +3,13 @@ import { Generator } from "@/model/generator";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import { TBodySelection } from "@/components/TBodySelection";
-import React, { useState } from "react";
+import React from "react";
 import "@/css/App.scss";
 
-const generator = new Generator(2020);
-
 export default function Home() {
-  const [state, setState] = useState({
-    weeks: generator.weeks,
-  });
+  const year = 2025;
+  const generator = new Generator(year);
+  const weeks = generator.getWeeksIn();
 
   return (
     <Container>
@@ -28,7 +26,7 @@ export default function Home() {
             <td>Sunday</td>
           </tr>
         </thead>
-        <TBodySelection weeks={state.weeks}></TBodySelection>
+        <TBodySelection weeks={weeks}></TBodySelection>
       </Table>
     </Container>
   );
