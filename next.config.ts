@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["@sequelize/core", "spidgorny-react-helpers"],
+  serverExternalPackages: ["@sequelize/core"],
+  transpilePackages: ["spidgorny-react-helpers"],
 };
 
 export default nextConfig;

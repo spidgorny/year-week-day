@@ -1,5 +1,4 @@
 "use server";
-import React from "react";
 import "@/css/App.scss";
 import { redirect } from "next/navigation";
 
@@ -12,5 +11,5 @@ export default async function Home({
   const year = new Date().getFullYear();
   redirect(`/${userId}/${year}`);
 
-  return <div>Loading...</div>;
+  // return <div>Loading...</div>;
 }

@@ -24,7 +24,7 @@ export function SaveButton({
       onClick={onClick}
       className={className}
     >
-      <HStack>
+      <HStack gap={3} center>
         {isWorking && <Spinner animation="border" size="sm" />}
         {children}
       </HStack>

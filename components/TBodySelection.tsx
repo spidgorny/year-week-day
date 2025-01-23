@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import moment from "moment";
 import { WeekRow } from "./WeekRow";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
+import { EditEventForm } from "@/app/[userId]/[year]/new-event.tsx";
 
 export interface IEvent {
-  id?: number;
+  id?: string;
   name: string;
   startDate: string; // date from JSON
   endDate: string; // date from JSON
@@ -97,14 +98,15 @@ export function TBodySelection(props: ITBodySelectionProps) {
         title="Add/Edit Event"
         onRequestClose={onClose}
       >
-        {/*<EditEventForm*/}
-        {/*  event={{*/}
-        {/*    startDate: state.minDate?.format("YYYY-MM-DD"),*/}
-        {/*    endDate: state.maxDate?.format("YYYY-MM-DD"),*/}
-        {/*    name: "",*/}
-        {/*  }}*/}
-        {/*  onClose={onClose}*/}
-        {/*/>*/}
+        <EditEventForm
+          userId={props.userId}
+          event={{
+            startDate: state.minDate?.format("YYYY-MM-DD"),
+            endDate: state.maxDate?.format("YYYY-MM-DD"),
+            name: "",
+          }}
+          onClose={onClose}
+        />
       </SlidingPaneAutoWidth>
 
       {props.weeks.map((monday: moment.Moment) => (
@@ -117,8 +119,10 @@ export function TBodySelection(props: ITBodySelectionProps) {
           maxSelected={state.maxDate}
           events={props.events.filter(
             (x) =>
-              moment(x.endDate).isSameOrAfter(monday.clone().add(1, "weeks")) &&
-              moment(x.startDate).isSameOrBefore(monday),
+              moment(x.endDate).isSameOrAfter(monday) &&
+              moment(x.startDate).isSameOrBefore(
+                monday.clone().add(1, "weeks"),
+              ),
           )}
         />
       ))}

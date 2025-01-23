@@ -6,6 +6,7 @@ export function HStack({
   gap,
   start,
   between,
+  center,
   end,
   top,
   bottom,
@@ -14,6 +15,7 @@ export function HStack({
   children: any;
   gap?: number;
   start?: boolean;
+  center?: boolean;
   between?: boolean;
   end?: boolean;
   top?: boolean;
@@ -28,6 +30,7 @@ export function HStack({
         gap && "gap-" + gap,
         {
           "justify-start": start,
+          "justify-center": center,
           "justify-content-start": start,
           "justify-between": between,
           "justify-content-between": between,

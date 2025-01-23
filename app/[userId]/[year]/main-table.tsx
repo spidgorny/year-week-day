@@ -4,7 +4,7 @@ import { Generator } from "@/model/generator";
 import Table from "react-bootstrap/Table";
 import { TBodySelection } from "@/components/TBodySelection";
 import React from "react";
-import useSWR from "swr";
+import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
 
 export default function MainTable(props: { userId: string; year: number }) {
   const generator = new Generator(props.year);
@@ -12,7 +12,7 @@ export default function MainTable(props: { userId: string; year: number }) {
   // console.table(weeks);
 
   const { events } = useEvents(props.userId);
-  // console.table(events);
+  console.table(events, ["startDate", "endDate", "name"]);
 
   return (
     <Table>
@@ -36,15 +36,4 @@ export default function MainTable(props: { userId: string; year: number }) {
       />
     </Table>
   );
-}
-
-function useEvents(userId: string) {
-  const { isLoading, error, data, mutate } = useSWR(`/api/${userId}`);
-  return {
-    isLoading,
-    error,
-    user: data?.user,
-    events: data?.events ?? [],
-    mutate,
-  };
 }
