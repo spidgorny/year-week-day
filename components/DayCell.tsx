@@ -5,8 +5,8 @@ import { IEvent } from "./TBodySelection";
 interface IDayCellProps {
   className: string;
   date: moment.Moment;
-  reportSelected: Function;
-  reportMouseUp: Function;
+  reportSelected: (date: moment.Moment) => void;
+  reportMouseUp: (date: moment.Moment) => void;
   isSelected?: boolean;
   events: IEvent[];
 }
