@@ -1,35 +1,19 @@
 "use client";
-import { Generator } from "@/model/generator";
-import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
-import { TBodySelection } from "@/components/TBodySelection";
-import React, { useState } from "react";
 import "@/css/App.scss";
-
-const generator = new Generator(2020);
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
-  const [state, setState] = useState({
-    weeks: generator.weeks,
-  });
+  const router = useRouter();
+  useEffect(() => {
+    let userId = localStorage.getItem("userId");
+    if (!userId) {
+      userId = uuidv4();
+      localStorage.setItem("userId", userId);
+    }
+    router.push(`/${userId}`);
+  }, []);
 
-  return (
-    <Container>
-      <Table>
-        <thead>
-          <tr>
-            <td>Week #</td>
-            <td>Monday</td>
-            <td>Tuesday</td>
-            <td>Wednesday</td>
-            <td>Thursday</td>
-            <td>Friday</td>
-            <td>Saturday</td>
-            <td>Sunday</td>
-          </tr>
-        </thead>
-        <TBodySelection weeks={state.weeks}></TBodySelection>
-      </Table>
-    </Container>
-  );
+  return <div>Loading...</div>;
 }

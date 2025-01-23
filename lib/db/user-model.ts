@@ -12,27 +12,18 @@ import {
   PrimaryKey,
 } from "@sequelize/core/decorators-legacy";
 
-export class Event extends Model<
-  InferAttributes<Event>,
-  InferCreationAttributes<Event>
+export class User extends Model<
+  InferAttributes<User>,
+  InferCreationAttributes<User>
 > {
   @Attribute({ type: DataTypes.UUID, defaultValue: sql.uuidV4 })
   @PrimaryKey
   declare id: CreationOptional<string>;
 
-  @Attribute(DataTypes.UUID)
-  @NotNull
-  declare idUser: string;
-
   @Attribute(DataTypes.STRING)
   @NotNull
   declare name: string;
 
-  @Attribute(DataTypes.DATEONLY)
-  @NotNull
-  declare startDate: Date;
-
-  @Attribute(DataTypes.DATEONLY)
-  @NotNull
-  declare endDate: Date;
+  @Attribute(DataTypes.STRING)
+  declare email: string;
 }
