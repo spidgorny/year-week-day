@@ -16,6 +16,8 @@ export async function getPostgresConnection() {
   }
   logger.log("connecting to", process.env.POSTGRES_HOST);
 
+  let globalBundle = await findUp(process.env.POSTGRES_GLOBAL_BUNDLE);
+  logger.log({ globalBundle });
   sequelize = new Sequelize({
     dialect: PostgresDialect,
     database: "year_week_day",
@@ -26,9 +28,7 @@ export async function getPostgresConnection() {
     clientMinMessages: "notice",
     ssl: {
       rejectUnauthorized: true,
-      ca: fs
-        .readFileSync(await findUp(process.env.POSTGRES_GLOBAL_BUNDLE))
-        .toString(),
+      ca: fs.readFileSync(globalBundle).toString(),
     },
     models: [User, Event],
   });
