@@ -12,7 +12,7 @@ export default function MainTable(props: { userId: string; year: number }) {
   // console.table(weeks);
 
   const { events } = useEvents(props.userId);
-  console.table(events);
+  // console.table(events);
 
   return (
     <Table>
@@ -33,7 +33,7 @@ export default function MainTable(props: { userId: string; year: number }) {
         userId={props.userId}
         year={props.year}
         events={events}
-      ></TBodySelection>
+      />
     </Table>
   );
 }

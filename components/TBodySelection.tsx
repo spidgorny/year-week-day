@@ -90,7 +90,11 @@ export function TBodySelection(props: ITBodySelectionProps) {
           reportMouseUp={reportMouseUp}
           minSelected={state.minDate}
           maxSelected={state.maxDate}
-          events={props.events}
+          events={props.events.filter(
+            (x) =>
+              moment(x.endDate).isSameOrAfter(monday.clone().add(1, "weeks")) &&
+              moment(x.startDate).isSameOrBefore(monday),
+          )}
         />
       ))}
     </tbody>
