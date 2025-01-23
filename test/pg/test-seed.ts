@@ -25,7 +25,7 @@ void runTest(async () => {
     },
   });
   if (!events.length) {
-    const [event] = await Event.create({
+    await Event.create({
       idUser: slawa.id,
       startDate: new Date("2024-02-01"),
       endDate: new Date("2024-02-13"),
