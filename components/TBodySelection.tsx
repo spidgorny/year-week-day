@@ -1,109 +1,98 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import moment from "moment";
-import {WeekRow} from "./WeekRow";
-import Dexie from 'dexie';
+import { WeekRow } from "./WeekRow";
 
 export interface IEvent {
-	id?: number;
-	name: string;
-	startDate: moment.Moment;
-	endDate: moment.Moment;
+  id?: number;
+  name: string;
+  startDate: string; // date from JSON
+  endDate: string; // date from JSON
 }
 
 interface ITBodySelectionProps {
-	weeks: moment.Moment[];
+  userId: string;
+  year: number;
+  weeks: moment.Moment[];
+  events: IEvent[];
 }
 
 interface ITBodySelectionState {
-	minDate: moment.Moment | null;
-	maxDate: moment.Moment | null;
-	events: IEvent[];
+  minDate: moment.Moment | null;
+  maxDate: moment.Moment | null;
 }
 
-export class TBodySelection extends React.Component<ITBodySelectionProps, ITBodySelectionState> {
+export function TBodySelection(props: ITBodySelectionProps) {
+  const [state, setState] = useState<ITBodySelectionState>({
+    minDate: null,
+    maxDate: null,
+  });
 
-	state = {
-		minDate: null,
-		maxDate: null,
-		events: [],
-	};
+  const reportSelected = (date: moment.Moment) => {
+    // console.log(date.format('YYYY-MM-DD'));
+    if (!state || !state.minDate || !state.maxDate) {
+      setState((state) => ({
+        ...state,
+        minDate: date.clone(),
+        maxDate: date.clone(),
+      }));
+      return;
+    }
 
-	db = new Dexie("Year-Week-Day");
+    setState((state) => {
+      if (date.isBefore(state.minDate)) {
+        return {
+          ...state,
+          minDate: date.clone(),
+        };
+      } else {
+        return {
+          ...state,
+          maxDate: date.clone(),
+        };
+      }
+    });
+  };
 
-	constructor(props) {
-		super(props);
-		this.db.version(1).stores({
-			events: "++id,name,startDate,endDate"
-		});
-	}
+  const reportMouseUp = async (date: moment.Moment) => {
+    if (!state.minDate || !state.maxDate) {
+      return;
+    }
+    let min = state.minDate as unknown as moment.Moment;
+    let max = state.maxDate as unknown as moment.Moment;
+    const name = prompt(
+      `What happens between ${min.format("YYYY-MM-DD")} and ${max.format("YYYY-MM-DD")}?`,
+    );
+    if (name) {
+      // @todo: store with POST
+      // await db.table("events").put({
+      //   name,
+      //   startDate: min.format("YYYY-MM-DD"),
+      //   endDate: max.format("YYYY-MM-DD"),
+      // });
+      // fetchData(); // update
+    }
+    setState((state) => ({
+      ...state,
+      minDate: null,
+      maxDate: null,
+    }));
+  };
 
-	componentDidMount(): void {
-		this.fetchData();
-	}
-
-	async fetchData() {
-		const events = await this.db.table('events').toArray();
-		console.log(events);
-		this.setState((state) => ({
-			...state,
-			events: events,
-		}))
-	}
-
-	reportSelected(date: moment.Moment) {
-		// console.log(date.format('YYYY-MM-DD'));
-		if (!this.state || !this.state.minDate || !this.state.maxDate) {
-			this.setState((state) => ({
-				...state,
-				minDate: date.clone(),
-				maxDate: date.clone(),
-			}));
-			return;
-		}
-
-		this.setState((state) => ({
-			...state,
-			maxDate: date.clone(),
-		}));
-	}
-
-	async reportMouseUp(date: moment.Moment) {
-		if (!this.state.minDate || !this.state.maxDate) {
-			return;
-		}
-		let min = this.state.minDate as unknown as moment.Moment;
-		let max = this.state.maxDate as unknown as moment.Moment;
-		const name = prompt(`What happens between ${min.format('YYYY-MM-DD')} and ${max.format('YYYY-MM-DD')}?`);
-		if (name) {
-			await this.db.table('events').put({
-				name,
-				startDate: min.format('YYYY-MM-DD'),
-				endDate: max.format('YYYY-MM-DD'),
-			});
-			this.fetchData();	// update
-		}
-		this.setState((state) => ({
-			...state,
-			minDate: null,
-			maxDate: null,
-		}));
-	}
-
-	render() {
-		return (
-			<tbody>
-			{this.props.weeks.map((monday: moment.Moment) => (
-				<WeekRow key={monday.format('YYYY-MM-DD')}
-						 monday={monday}
-						 reportSelected={this.reportSelected.bind(this)}
-						 reportMouseUp={this.reportMouseUp.bind(this)}
-						 minSelected={this.state.minDate}
-						 maxSelected={this.state.maxDate}
-						 events={this.state.events}
-				/>
-			))}
-			</tbody>
-		)
-	}
-
+  return (
+    <tbody>
+      {props.weeks.map((monday: moment.Moment) => (
+        <WeekRow
+          key={monday.format("YYYY-MM-DD")}
+          monday={monday}
+          reportSelected={reportSelected}
+          reportMouseUp={reportMouseUp}
+          minSelected={state.minDate}
+          maxSelected={state.maxDate}
+          events={props.events}
+        />
+      ))}
+    </tbody>
+  );
 }

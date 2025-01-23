@@ -1,33 +1,16 @@
-"use client";
-import { Generator } from "@/model/generator";
-import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
-import { TBodySelection } from "@/components/TBodySelection";
+"use server";
 import React from "react";
 import "@/css/App.scss";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  const year = 2025;
-  const generator = new Generator(year);
-  const weeks = generator.getWeeksIn();
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ userId: string }>;
+}) {
+  const { userId } = await params;
+  const year = new Date().getFullYear();
+  redirect(`/${userId}/${year}`);
 
-  return (
-    <Container>
-      <Table>
-        <thead>
-          <tr>
-            <td>Week #</td>
-            <td>Monday</td>
-            <td>Tuesday</td>
-            <td>Wednesday</td>
-            <td>Thursday</td>
-            <td>Friday</td>
-            <td>Saturday</td>
-            <td>Sunday</td>
-          </tr>
-        </thead>
-        <TBodySelection weeks={weeks}></TBodySelection>
-      </Table>
-    </Container>
-  );
+  return <div>Loading...</div>;
 }

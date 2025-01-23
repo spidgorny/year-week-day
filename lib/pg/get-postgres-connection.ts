@@ -8,10 +8,15 @@ import { Event } from "@lib/db/event-model.ts";
 
 const logger = new Logger("get-postgres-connection");
 
+let sequelize: Sequelize;
+
 export async function getPostgresConnection() {
+  if (sequelize) {
+    return sequelize;
+  }
   logger.log("connecting to", process.env.POSTGRES_HOST);
 
-  const sequelize = new Sequelize({
+  sequelize = new Sequelize({
     dialect: PostgresDialect,
     database: "year_week_day",
     user: process.env.POSTGRES_USER,
