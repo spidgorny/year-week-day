@@ -9,9 +9,16 @@ import { SaveButton } from "@components/save-button.tsx";
 import { useFormData } from "spidgorny-react-helpers/use-form-data.tsx";
 import moment from "moment";
 import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
+import { revalidatePath } from "next/cache";
+import { Alert } from "react-bootstrap";
 
 export function EditEventPane(props: { userId: string; event: IEvent }) {
   const [state, setState] = useState(false);
+
+  const onClose = () => {
+    setState(false);
+    revalidatePath(`/${props.userId}/events`);
+  };
 
   return (
     <div>
@@ -19,12 +26,12 @@ export function EditEventPane(props: { userId: string; event: IEvent }) {
       <SlidingPaneAutoWidth
         isOpen={state}
         title="Add/Edit Event"
-        onRequestClose={() => setState(false)}
+        onRequestClose={onClose}
       >
         <EditEventForm
           userId={props.userId}
           event={props.event}
-          onClose={() => setState(false)}
+          onClose={onClose}
         />
       </SlidingPaneAutoWidth>
     </div>
@@ -54,6 +61,7 @@ export function EditEventForm(props: {
 
   return (
     <form onSubmit={run}>
+      <input type="hidden" name="id" value={formData.id} />
       <label className="form-label d-block mb-3">
         Start Date
         <input
@@ -85,11 +93,20 @@ export function EditEventForm(props: {
           className="form-control"
           value={formData.name}
           onChange={onChange}
+          autoFocus
         />
       </label>
       <SaveButton type="submit" disabled={isWorking} isWorking={isWorking}>
         Submit
       </SaveButton>
+      <ErrorAlert error={error} />
     </form>
   );
+}
+
+export function ErrorAlert(props: { error?: Error }) {
+  if (!props.error) {
+    return null;
+  }
+  return <Alert variant="danger">{props.error.message}</Alert>;
 }

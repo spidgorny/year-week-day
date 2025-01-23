@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { MainNavbar } from "@/app/main-navbar.tsx";
 import { SWRConfig } from "swr";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NextTopLoader showSpinner={false} />
         <SWRConfig value={{ fetcher }}>
           <MainNavbar />
           {children}

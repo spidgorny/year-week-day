@@ -17,9 +17,22 @@ export async function saveEvent(userId: string, eventPayload: IEvent) {
     },
   });
 
+  if (eventPayload.id) {
+    // UPDATE
+    const event = await Event.findByPk(eventPayload.id);
+    await event.update({
+      ...eventPayload,
+      startDate: new Date(eventPayload.startDate),
+      endDate: new Date(eventPayload.endDate),
+    });
+    return event.toJSON();
+  }
+
+  // CREATE
   const event = await Event.create({
     idUser: user.id,
     ...eventPayload,
+    id: undefined,
     startDate: new Date(eventPayload.startDate),
     endDate: new Date(eventPayload.endDate),
   });
