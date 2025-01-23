@@ -11,12 +11,7 @@ interface IDayCellProps {
   events: IEvent[];
 }
 
-interface IDayCellState {}
-
-export class DayCell extends React.Component<
-  PropsWithChildren<IDayCellProps>,
-  IDayCellState
-> {
+export class DayCell extends React.Component<PropsWithChildren<IDayCellProps>> {
   eventNames: string[] = [];
 
   get classNames() {

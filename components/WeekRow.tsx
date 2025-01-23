@@ -12,7 +12,7 @@ interface IWeekRowProps {
   events: IEvent[];
 }
 
-export class WeekRow extends React.Component<IWeekRowProps, {}> {
+export class WeekRow extends React.Component<IWeekRowProps> {
   isToday(plus: number) {
     const classes: string[] = [];
     const today = moment();
