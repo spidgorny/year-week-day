@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, PropsWithChildren } from "react";
+import React, { MouseEvent, PropsWithChildren, useState } from "react";
 import moment from "moment";
 import { IEvent } from "./TBodySelection";
 
@@ -11,79 +11,68 @@ interface IDayCellProps {
   events: IEvent[];
 }
 
-export class DayCell extends React.Component<PropsWithChildren<IDayCellProps>> {
-  eventNames: string[] = [];
+export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
+  className,
+  date,
+  reportSelected,
+  reportMouseUp,
+  isSelected = false,
+  events,
+  children,
+}) => {
+  const [mouseDown, setMouseDown] = useState<boolean>(false);
 
-  get classNames() {
-    const classes: string[] = [];
-    classes.push(this.props.className);
-    classes.push(this.props.isSelected ? " selected" : "");
+  const classes: string[] = [];
+  const eventNames: string[] = [];
+  // Compute classNames
 
-    this.eventNames = [];
-    this.props.events.map((event: IEvent) => {
-      const start = moment(event.startDate);
-      const end = moment(event.endDate);
-      if (
-        this.props.date.isSame(start) ||
-        this.props.date.isBetween(start, end) ||
-        this.props.date.isSame(end)
-      ) {
-        classes.push("event-" + event.id);
-        this.eventNames.push(event.name);
-      }
-      return true;
-    });
-
-    return classes.join(" ");
+  classes.push(className);
+  if (isSelected) {
+    classes.push("selected");
   }
 
-  render() {
-    return (
-      <td
-        className={this.classNames}
-        onMouseDown={
-          this._onMouseDown.bind(this) as unknown as MouseEventHandler
-        }
-        onMouseEnter={
-          this._onMouseEnter.bind(this) as unknown as MouseEventHandler
-        }
-        onMouseUp={this._onMouseUp.bind(this) as unknown as MouseEventHandler}
-      >
-        {this.props.children} &nbsp;
-        {this.eventNames.join(" ")}
-      </td>
-    );
-  }
-
-  _onMouseDown(e: MouseEvent) {
-    e.preventDefault();
-    this.setState((state) => ({
-      ...state,
-      mouseDown: true,
-    }));
-    this.props.reportSelected(this.props.date);
-  }
-
-  /**
-   * On document element mouse up
-   */
-  _onMouseUp(e: MouseEvent) {
-    e.preventDefault();
-    this.setState((state) => ({
-      ...state,
-      mouseDown: false,
-    }));
-    this.props.reportMouseUp(this.props.date);
-  }
-
-  /**
-   * On document element mouse move
-   */
-  _onMouseEnter(e: MouseEvent) {
-    e.preventDefault();
-    if (e.buttons !== 1) {
-      return;
+  events.forEach((event: IEvent) => {
+    const start = moment(event.startDate);
+    const end = moment(event.endDate);
+    if (date.isSame(start) || date.isBetween(start, end) || date.isSame(end)) {
+      classes.push("event-" + event.id);
+      eventNames.push(event.name);
     }
-    this.props.reportSelected(this.props.date);
-  }
-}
+  });
+
+  // Mouse event handlers
+  const handleMouseDown = (e: MouseEvent) => {
+    e.preventDefault();
+    setMouseDown(true);
+    reportSelected(date);
+  };
+
+  const handleMouseUp = (e: MouseEvent) => {
+    e.preventDefault();
+    setMouseDown(false);
+    reportMouseUp(date);
+  };
+
+  const handleMouseEnter = (e: MouseEvent) => {
+    e.preventDefault();
+    if (e.buttons !== 1) return;
+    reportSelected(date);
+  };
+
+  return (
+    <td
+      className={classes.join(" ")}
+      onMouseDown={handleMouseDown}
+      onMouseEnter={handleMouseEnter}
+      onMouseUp={handleMouseUp}
+    >
+      <span
+        className="border border-secondary rounded-full text-body d-inline-block text-center"
+        style={{ width: "1.5em", height: "1.5em" }}
+      >
+        {children}
+      </span>
+      &nbsp; {eventNames.join(" ")}
+    </td>
+  );
+};
