@@ -1,10 +1,9 @@
 import { Sequelize } from "@sequelize/core";
 import { PostgresDialect } from "@sequelize/postgres";
 import { Logger } from "@lib/logger";
-import * as fs from "node:fs";
-import { findUp } from "find-up";
 import { User } from "@lib/db/user-model.ts";
 import { Event } from "@lib/db/event-model.ts";
+import { globalBundle } from "@lib/pg/global-bundle.ts";
 
 const logger = new Logger("get-postgres-connection");
 
@@ -16,8 +15,7 @@ export async function getPostgresConnection() {
   }
   logger.log("connecting to", process.env.POSTGRES_HOST);
 
-  let globalBundle = await findUp(process.env.POSTGRES_GLOBAL_BUNDLE);
-  logger.log({ globalBundle });
+  // const globalBundle = fs.readFileSync(await findUp('global-bundle.pem')).toString()
   sequelize = new Sequelize({
     dialect: PostgresDialect,
     database: "year_week_day",
@@ -28,7 +26,7 @@ export async function getPostgresConnection() {
     clientMinMessages: "notice",
     ssl: {
       rejectUnauthorized: true,
-      ca: fs.readFileSync(globalBundle).toString(),
+      ca: globalBundle,
     },
     models: [User, Event],
   });
