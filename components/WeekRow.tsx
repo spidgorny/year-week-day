@@ -141,7 +141,6 @@ export class WeekRow extends React.Component<IWeekRowProps> {
         >
           {this.day(6)}
         </DayCell>
-        <td>{this.props.events.length}</td>
       </tr>
     );
   }
