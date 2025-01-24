@@ -90,8 +90,8 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
         style={{ width: "1.5em", height: "1.5em" }}
       >
         {children}
-      </span>
-      {/*&nbsp; {eventNames.join(" ")}*/}
+      </span>{" "}
+      {date.date() === 1 ? date.format("MMM") : ""}
     </td>
   );
 };
