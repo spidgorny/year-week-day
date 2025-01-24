@@ -1,6 +1,6 @@
-import { Ref, useCallback, useLayoutEffect, useState } from "react";
+import { RefObject, useCallback, useLayoutEffect, useState } from "react";
 
-export const useRect = (ref: Ref) => {
+export const useRect = (ref: RefObject<HTMLTableCellElement>) => {
   const [rect, setRect] = useState(getRect(ref ? ref.current : null));
 
   const handleResize = useCallback(() => {
