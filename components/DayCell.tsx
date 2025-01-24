@@ -1,6 +1,15 @@
-import React, { MouseEvent, PropsWithChildren, useState } from "react";
+import React, {
+  MouseEvent,
+  PropsWithChildren,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import moment from "moment";
 import { IEvent } from "./TBodySelection";
+import { useRect } from "@components/use-rect.tsx";
+import { RectContext } from "@/app/[userId]/[year]/main-table.tsx";
 
 interface IDayCellProps {
   className: string;
@@ -20,7 +29,14 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
   events,
   children,
 }) => {
+  const ref = useRef<HTMLTableCellElement>(null);
+  const { setRectState } = useContext(RectContext);
+  const rect = useRect(ref);
   const [mouseDown, setMouseDown] = useState<boolean>(false);
+
+  useLayoutEffect(() => {
+    setRectState(date, rect);
+  }, [rect.left, rect.top]);
 
   const classes: string[] = [];
   const eventNames: string[] = [];
@@ -65,6 +81,7 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseUp={handleMouseUp}
+      ref={ref}
     >
       <span
         className="border border-secondary rounded-full text-body d-inline-block text-center"
