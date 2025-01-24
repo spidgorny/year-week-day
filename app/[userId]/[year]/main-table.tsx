@@ -2,27 +2,26 @@
 
 import { Generator } from "@/model/generator";
 import Table from "react-bootstrap/Table";
-import { TBodySelection } from "@/components/TBodySelection";
-import React from "react";
+import { IEvent, TBodySelection } from "@/components/TBodySelection";
+import React, { useContext } from "react";
 import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
+import {
+  RectContext,
+  RectContextProvider,
+} from "@/app/[userId]/[year]/rect-context.tsx";
+import { FloatingEvents } from "@/app/[userId]/[year]/floating-events.tsx";
 import moment from "moment";
 
-export const RectContext = React.createContext(
-  {} as {
-    rectState: {};
-    setRectState: (
-      date: moment.Moment,
-      state: {
-        bottom: number;
-        height: number;
-        left: number;
-        right: number;
-        top: number;
-        width: number;
-      },
-    ) => void;
-  },
-);
+export function eventInRange(
+  event: IEvent,
+  min: moment.Moment,
+  max: moment.Moment,
+) {
+  return (
+    moment(event.endDate).isSameOrAfter(min) &&
+    moment(event.startDate).isSameOrBefore(max)
+  );
+}
 
 export default function MainTable(props: { userId: string; year: number }) {
   const generator = new Generator(props.year);
@@ -32,39 +31,42 @@ export default function MainTable(props: { userId: string; year: number }) {
   const { events } = useEvents(props.userId);
   // console.table(events, ["startDate", "endDate", "name"]);
 
-  const [rectState, setRectState] = React.useState({});
+  let yearStart = moment(`${props.year}-01-01`);
+  let yearEnd = moment(`${props.year + 1}-01-01`);
+  const eventsThisYear = events.filter((x) =>
+    eventInRange(x, yearStart, yearEnd),
+  );
 
   return (
-    <RectContext.Provider
-      value={{
-        rectState,
-        setRectState: (date: moment.Moment, rect: DOMRect) =>
-          setRectState((state) => ({
-            ...state,
-            [date.toISOString().substring(0, 10)]: rect,
-          })),
-      }}
-    >
+    <RectContextProvider>
       <Table>
-        <thead>
-          <tr>
-            <td onClick={() => console.table(rectState)}>Week #</td>
-            <td>Monday</td>
-            <td>Tuesday</td>
-            <td>Wednesday</td>
-            <td>Thursday</td>
-            <td>Friday</td>
-            <td>Saturday</td>
-            <td>Sunday</td>
-          </tr>
-        </thead>
+        <MainTableHead />
         <TBodySelection
           weeks={weeks}
           userId={props.userId}
           year={props.year}
-          events={events}
+          events={eventsThisYear}
         />
       </Table>
-    </RectContext.Provider>
+      <FloatingEvents events={eventsThisYear} />
+    </RectContextProvider>
+  );
+}
+
+function MainTableHead() {
+  const { rectState } = useContext(RectContext);
+  return (
+    <thead>
+      <tr>
+        <td onClick={() => console.table(rectState)}>Week #</td>
+        <td>Monday</td>
+        <td>Tuesday</td>
+        <td>Wednesday</td>
+        <td>Thursday</td>
+        <td>Friday</td>
+        <td>Saturday</td>
+        <td>Sunday</td>
+      </tr>
+    </thead>
   );
 }

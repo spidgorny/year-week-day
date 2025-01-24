@@ -5,6 +5,7 @@ import moment from "moment";
 import { WeekRow } from "./WeekRow";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
 import { EditEventForm } from "@/app/[userId]/[year]/new-event.tsx";
+import { eventInRange } from "@/app/[userId]/[year]/main-table.tsx";
 
 export interface IEvent {
   id?: string;
@@ -117,12 +118,8 @@ export function TBodySelection(props: ITBodySelectionProps) {
           reportMouseUp={reportMouseUp}
           minSelected={state.minDate}
           maxSelected={state.maxDate}
-          events={props.events.filter(
-            (x) =>
-              moment(x.endDate).isSameOrAfter(monday) &&
-              moment(x.startDate).isSameOrBefore(
-                monday.clone().add(1, "weeks"),
-              ),
+          events={props.events.filter((x) =>
+            eventInRange(x, monday, monday.clone().add(1, "weeks")),
           )}
         />
       ))}

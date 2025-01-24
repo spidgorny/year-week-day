@@ -9,7 +9,8 @@ import React, {
 import moment from "moment";
 import { IEvent } from "./TBodySelection";
 import { useRect } from "@components/use-rect.tsx";
-import { RectContext } from "@/app/[userId]/[year]/main-table.tsx";
+
+import { RectContext } from "@/app/[userId]/[year]/rect-context.tsx";
 
 interface IDayCellProps {
   className: string;
@@ -89,7 +90,7 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
       >
         {children}
       </span>
-      &nbsp; {eventNames.join(" ")}
+      {/*&nbsp; {eventNames.join(" ")}*/}
     </td>
   );
 };
