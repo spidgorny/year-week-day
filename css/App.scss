@@ -1,154 +1,154 @@
 @import '../node_modules/open-color/open-color.css';
 
 .App {
-	text-align: center;
+  text-align: center;
 }
 
 .App-logo {
-	height: 40vmin;
-	pointer-events: none;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.App-logo {
-		animation: App-logo-spin infinite 20s linear;
-	}
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
 .App-header {
-	background-color: #282c34;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .App-link {
-	color: #61dafb;
+  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .table {
-	.weekend {
-		background-color: var(--oc-yellow-0) !important;
-	}
+  .weekend {
+    background-color: var(--oc-yellow-0) !important;
+  }
 
-	.month-Dec {
-		background-color: var(--oc-blue-2);
-	}
+  .month-Dec {
+    background-color: var(--oc-blue-2);
+  }
 
-	.month-Jan {
-		background-color: var(--oc-blue-3);
-	}
+  .month-Jan {
+    background-color: var(--oc-blue-3);
+  }
 
-	.month-Feb {
-		background-color: var(--oc-blue-4);
-	}
+  .month-Feb {
+    background-color: var(--oc-blue-4);
+  }
 
-	.month-Mar {
-		background-color: var(--oc-green-2);
-	}
+  .month-Mar {
+    background-color: var(--oc-green-2);
+  }
 
-	.month-Apr {
-		background-color: var(--oc-green-3);
-	}
+  .month-Apr {
+    background-color: var(--oc-green-3);
+  }
 
-	.month-May {
-		background-color: var(--oc-green-4);
-	}
+  .month-May {
+    background-color: var(--oc-green-4);
+  }
 
-	.month-Jun {
-		background-color: var(--oc-red-2);
-	}
+  .month-Jun {
+    background-color: var(--oc-red-2);
+  }
 
-	.month-Jul {
-		background-color: var(--oc-red-3);
-	}
+  .month-Jul {
+    background-color: var(--oc-red-3);
+  }
 
-	.month-Aug {
-		background-color: var(--oc-red-4);
-	}
+  .month-Aug {
+    background-color: var(--oc-red-4);
+  }
 
-	.month-Sep {
-		background-color: var(--oc-yellow-2);
-	}
+  .month-Sep {
+    background-color: var(--oc-yellow-2);
+  }
 
-	.month-Oct {
-		background-color: var(--oc-yellow-3);
-	}
+  .month-Oct {
+    background-color: var(--oc-yellow-3);
+  }
 
-	.month-Nov {
-		background-color: var(--oc-yellow-4);
-	}
+  .month-Nov {
+    background-color: var(--oc-yellow-4);
+  }
 
-	/* selection container */
-	.selection {
-		position: relative;
-	}
+  /* selection container */
+  .selection {
+    position: relative;
+  }
 
-	/* selection box */
-	.selection-border {
-		background: rgba(0, 162, 255, 0.4);
-		position: absolute;
-		z-index: 99;
-	}
+  /* selection box */
+  .selection-border {
+    background: rgba(0, 162, 255, 0.4);
+    position: absolute;
+    z-index: 99;
+  }
 
-	.selected {
-		background-color: var(--oc-orange-9) !important;
-	}
+  .selected {
+    background-color: var(--oc-orange-9) !important;
+  }
+}
 
-	.event-1 {
-		background-color: var(--oc-grape-3) !important;
-	}
+.event-1 {
+  background-color: var(--oc-grape-3) !important;
+}
 
-	.event-2 {
-		background-color: var(--oc-teal-3) !important;
-	}
+.event-2 {
+  background-color: var(--oc-teal-3) !important;
+}
 
-	.event-3 {
-		background-color: var(--oc-lime-3) !important;
-	}
+.event-3 {
+  background-color: var(--oc-lime-3) !important;
+}
 
-	.event-4 {
-		background-color: var(--oc-orange-3) !important;
-	}
+.event-4 {
+  background-color: var(--oc-orange-3) !important;
+}
 
-	.event-5 {
-		background-color: var(--oc-cyan-3) !important;
-	}
+.event-5 {
+  background-color: var(--oc-cyan-3) !important;
+}
 
-	.event-6 {
-		background-color: var(--oc-blue-3) !important;
-	}
+.event-6 {
+  background-color: var(--oc-blue-3) !important;
+}
 
-	.event-7 {
-		background-color: var(--oc-indigo-3) !important;
-	}
+.event-7 {
+  background-color: var(--oc-indigo-3) !important;
+}
 
-	.event-8 {
-		background-color: var(--oc-violet-3) !important;
-	}
+.event-8 {
+  background-color: var(--oc-violet-3) !important;
+}
 
-	.event-9 {
-		background-color: var(--oc-pink-3) !important;
-	}
+.event-9 {
+  background-color: var(--oc-pink-3) !important;
+}
 
-	.event-10 {
-		background-color: var(--oc-red-3) !important;
-	}
+.event-10 {
+  background-color: var(--oc-red-3) !important;
+}
 
-	.event-11 {
-		background-color: var(--oc-gray-3) !important;
-	}
+.event-11 {
+  background-color: var(--oc-gray-3) !important;
 }

@@ -1,7 +1,6 @@
 "use server";
 import Container from "react-bootstrap/Container";
 import React from "react";
-import "@/css/App.scss";
 import MainTable from "@/app/[userId]/[year]/main-table.tsx";
 import { YearSelectorRow } from "@/app/[userId]/[year]/year-selector-row.tsx";
 

@@ -31,15 +31,15 @@ export default function MainTable(props: { userId: string; year: number }) {
   const { events } = useEvents(props.userId);
   // console.table(events, ["startDate", "endDate", "name"]);
 
-  let yearStart = moment(`${props.year}-01-01`);
-  let yearEnd = moment(`${props.year + 1}-01-01`);
+  let yearStart = moment.utc(`${props.year}-01-01`);
+  let yearEnd = moment.utc(`${props.year + 1}-01-01`);
   const eventsThisYear = events.filter((x) =>
     eventInRange(x, yearStart, yearEnd),
   );
 
   return (
     <RectContextProvider>
-      <Table>
+      <Table className="table-fixed">
         <MainTableHead />
         <TBodySelection
           weeks={weeks}
@@ -59,13 +59,13 @@ function MainTableHead() {
     <thead>
       <tr>
         <td onClick={() => console.table(rectState)}>Week #</td>
-        <td>Monday</td>
-        <td>Tuesday</td>
-        <td>Wednesday</td>
-        <td>Thursday</td>
-        <td>Friday</td>
-        <td>Saturday</td>
-        <td>Sunday</td>
+        <td style={{ width: (1 / 8) * 100 + "%" }}>Monday</td>
+        <td style={{ width: (1 / 8) * 100 + "%" }}>Tuesday</td>
+        <td style={{ width: (1 / 8) * 100 + "%" }}>Wednesday</td>
+        <td style={{ width: (1 / 8) * 100 + "%" }}>Thursday</td>
+        <td style={{ width: (1 / 8) * 100 + "%" }}>Friday</td>
+        <td style={{ width: (1 / 8) * 100 + "%" }}>Saturday</td>
+        <td style={{ width: (1 / 8) * 100 + "%" }}>Sunday</td>
       </tr>
     </thead>
   );

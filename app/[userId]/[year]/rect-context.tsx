@@ -3,7 +3,7 @@ import moment from "moment/moment";
 
 export const RectContext = React.createContext(
   {} as {
-    rectState: {};
+    rectState: Record<string, DOMRect>;
     setRectState: (
       date: moment.Moment,
       state: {
@@ -19,7 +19,9 @@ export const RectContext = React.createContext(
 );
 
 export function RectContextProvider(props: PropsWithChildren) {
-  const [rectState, setRectStateRaw] = React.useState({});
+  const [rectState, setRectStateRaw] = React.useState<Record<string, DOMRect>>(
+    {},
+  );
 
   let setRectState = (date: moment.Moment, rect: DOMRect) =>
     setRectStateRaw((state) => ({

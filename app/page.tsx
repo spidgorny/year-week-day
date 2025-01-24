@@ -1,5 +1,4 @@
 "use client";
-import "@/css/App.scss";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";

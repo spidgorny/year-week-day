@@ -11,7 +11,7 @@ export class Generator {
 
   getWeeksIn() {
     const weeks: moment.Moment[] = [];
-    let day1 = moment(`${this.year}-01-01`).startOf("year").startOf("week");
+    let day1 = moment.utc(`${this.year}-01-01`).startOf("year").startOf("week");
     const nextYear = day1.clone().add(1, "y");
 
     do {

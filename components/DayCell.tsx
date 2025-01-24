@@ -2,7 +2,7 @@ import React, {
   MouseEvent,
   PropsWithChildren,
   useContext,
-  useLayoutEffect,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -35,9 +35,9 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
   const rect = useRect(ref);
   const [mouseDown, setMouseDown] = useState<boolean>(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setRectState(date, rect);
-  }, [rect.left, rect.top]);
+  }, [rect.left, rect.top, rect.width, rect.height]);
 
   const classes: string[] = [];
   const eventNames: string[] = [];
@@ -49,8 +49,8 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
   }
 
   events.forEach((event: IEvent) => {
-    const start = moment(event.startDate);
-    const end = moment(event.endDate);
+    const start = moment.utc(event.startDate);
+    const end = moment.utc(event.endDate);
     if (date.isSame(start) || date.isBetween(start, end) || date.isSame(end)) {
       classes.push("event-" + event.id);
       eventNames.push(event.name);
@@ -60,8 +60,9 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
   // Mouse event handlers
   const handleMouseDown = (e: MouseEvent) => {
     e.preventDefault();
-    setMouseDown(true);
-    reportSelected(date);
+    console.log(date.toISOString(), rect);
+    // setMouseDown(true);
+    // reportSelected(date);
   };
 
   const handleMouseUp = (e: MouseEvent) => {

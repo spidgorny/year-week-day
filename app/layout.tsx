@@ -2,6 +2,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@/css/index.css";
+import "@/css/App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { MainNavbar } from "@/app/main-navbar.tsx";
