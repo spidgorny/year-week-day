@@ -10,8 +10,10 @@ import {
   Attribute,
   NotNull,
   PrimaryKey,
+  Table,
 } from "@sequelize/core/decorators-legacy";
 
+@Table({ modelName: "Events" })
 export class Event extends Model<
   InferAttributes<Event>,
   InferCreationAttributes<Event>

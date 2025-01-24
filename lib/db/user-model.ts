@@ -10,8 +10,10 @@ import {
   Attribute,
   NotNull,
   PrimaryKey,
+  Table,
 } from "@sequelize/core/decorators-legacy";
 
+@Table({ modelName: "Users" })
 export class User extends Model<
   InferAttributes<User>,
   InferCreationAttributes<User>
