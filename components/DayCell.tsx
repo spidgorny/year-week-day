@@ -60,9 +60,8 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
   // Mouse event handlers
   const handleMouseDown = (e: MouseEvent) => {
     e.preventDefault();
-    console.log(date.toISOString(), rect);
-    // setMouseDown(true);
-    // reportSelected(date);
+    setMouseDown(true);
+    reportSelected(date);
   };
 
   const handleMouseUp = (e: MouseEvent) => {
