@@ -8,8 +8,9 @@ export async function GET(
   const { userId } = await params;
   const repo = await Repository.init(userId);
   const user = await repo.getUser();
+
   let events = [];
-  if (user.id) {
+  if (user?.id) {
     events = await repo.fetchEvents();
   }
   return Response.json({ user, events });

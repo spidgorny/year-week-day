@@ -59,6 +59,10 @@ export function EditEventForm(props: {
     },
   );
 
+  let duration = moment(formData.endDate).diff(
+    moment(formData.startDate),
+    "days",
+  );
   return (
     <form onSubmit={run}>
       <input type="hidden" name="id" value={formData.id} />
@@ -84,7 +88,10 @@ export function EditEventForm(props: {
       </label>
       <p className="my-3">
         Duration:{" "}
-        {moment(formData.endDate).diff(moment(formData.startDate), "days")} days
+        <span className={duration < 0 ? "text-danger" : ""}>
+          {" "}
+          {duration} days
+        </span>
       </p>
       <label className="form-label d-block mb-3">
         Event name
@@ -96,9 +103,14 @@ export function EditEventForm(props: {
           autoFocus
         />
       </label>
-      <SaveButton type="submit" disabled={isWorking} isWorking={isWorking}>
+      <SaveButton
+        type="submit"
+        disabled={isWorking || duration < 0 || formData.name === ""}
+        isWorking={isWorking}
+      >
         Submit
       </SaveButton>
+      <div className="mb-3"></div>
       <ErrorAlert error={error} />
     </form>
   );

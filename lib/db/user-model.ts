@@ -8,7 +8,6 @@ import {
 } from "@sequelize/core";
 import {
   Attribute,
-  NotNull,
   PrimaryKey,
   Table,
 } from "@sequelize/core/decorators-legacy";
@@ -23,7 +22,6 @@ export class User extends Model<
   declare id: CreationOptional<string>;
 
   @Attribute(DataTypes.STRING)
-  @NotNull
   declare name: string;
 
   @Attribute(DataTypes.STRING)
