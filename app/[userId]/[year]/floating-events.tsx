@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { RectContext } from "@/app/[userId]/[year]/rect-context.tsx";
 import { IEvent } from "@components/TBodySelection.tsx";
 import moment from "moment";
@@ -25,6 +25,7 @@ function OneFloatingEvent({
   const { rectState } = useContext(RectContext);
   let mStart = moment.utc(event1.startDate);
   let mEnd = moment.utc(event1.endDate);
+  let [initialWindowTop] = useState(window.scrollY);
 
   const startWeek = mStart.isoWeeks();
   const endWeek = mEnd.isoWeek();
@@ -56,7 +57,7 @@ function OneFloatingEvent({
         currentWeek: currentWeek.toISOString(),
         isoStart,
         isoEnd,
-        top: startRect.top,
+        top: startRect.top + initialWindowTop,
         left: startRect.left,
         width: endRect.left - startRect.left + endRect.width,
         height: endRect.top - startRect.top + endRect.height,
