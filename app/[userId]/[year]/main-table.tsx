@@ -55,17 +55,18 @@ export default function MainTable(props: { userId: string; year: number }) {
 
 function MainTableHead() {
   const { rectState } = useContext(RectContext);
+  let weekDayStyle = { width: (1 / 8) * 100 + "%", overflow: "hidden" };
   return (
     <thead>
       <tr>
         <td onClick={() => console.table(rectState)}>Week #</td>
-        <td style={{ width: (1 / 8) * 100 + "%" }}>Monday</td>
-        <td style={{ width: (1 / 8) * 100 + "%" }}>Tuesday</td>
-        <td style={{ width: (1 / 8) * 100 + "%" }}>Wednesday</td>
-        <td style={{ width: (1 / 8) * 100 + "%" }}>Thursday</td>
-        <td style={{ width: (1 / 8) * 100 + "%" }}>Friday</td>
-        <td style={{ width: (1 / 8) * 100 + "%" }}>Saturday</td>
-        <td style={{ width: (1 / 8) * 100 + "%" }}>Sunday</td>
+        <td style={weekDayStyle}>Monday</td>
+        <td style={weekDayStyle}>Tuesday</td>
+        <td style={weekDayStyle}>Wednesday</td>
+        <td style={weekDayStyle}>Thursday</td>
+        <td style={weekDayStyle}>Friday</td>
+        <td style={weekDayStyle}>Saturday</td>
+        <td style={weekDayStyle}>Sunday</td>
       </tr>
     </thead>
   );
