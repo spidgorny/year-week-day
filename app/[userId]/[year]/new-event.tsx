@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
 import { IEvent } from "@/components/TBodySelection.tsx";
 import { deleteEvent, saveEvent } from "@/app/[userId]/[year]/actions.ts";
@@ -11,27 +11,28 @@ import moment from "moment";
 import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
 import { revalidatePath } from "next/cache";
 import { ErrorAlert } from "@components/error-alert.tsx";
+import { useIsOpen } from "@components/use-is-open.tsx";
 
 export function EditEventPane(props: { userId: string; event: IEvent }) {
-  const [state, setState] = useState(false);
+  const { isOpen, onOpen, onClose } = useIsOpen();
 
-  const onClose = () => {
-    setState(false);
+  const onCloseHere = () => {
+    onClose();
     revalidatePath(`/${props.userId}/events`);
   };
 
   return (
     <div>
-      <SaveButton onClick={() => setState(true)}>Edit Event</SaveButton>
+      <SaveButton onClick={onOpen}>Edit Event</SaveButton>
       <SlidingPaneAutoWidth
-        isOpen={state}
+        isOpen={isOpen}
         title="Add/Edit Event"
-        onRequestClose={onClose}
+        onRequestClose={onCloseHere}
       >
         <EditEventForm
           userId={props.userId}
           event={props.event}
-          onClose={onClose}
+          onClose={onCloseHere}
         />
       </SlidingPaneAutoWidth>
     </div>
@@ -115,7 +116,9 @@ export function EditEventForm(props: {
         <ErrorAlert error={error} />
       </form>
       <div className="d-flex justify-content-end">
-        <DeleteEventButton event={props.event} onClose={props.onClose} />
+        {props.event.id && (
+          <DeleteEventButton event={props.event} onClose={props.onClose} />
+        )}
       </div>
     </div>
   );

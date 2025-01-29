@@ -5,6 +5,7 @@ import moment from "moment";
 import "@/css/App.scss";
 import { EditEventForm } from "@/app/[userId]/[year]/new-event.tsx";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
+import { useIsOpen } from "@components/use-is-open.tsx";
 
 // https://stackoverflow.com/questions/13651022/square-brackets-with-css
 export function FloatingEvents(props: { userId: string; events: IEvent[] }) {
@@ -113,14 +114,12 @@ function FloatingWeek(props: {
   eventColorNumber: number;
 }) {
   const { week } = props;
-  const [isOpenAddEvent, setIsOpen] = useState(false);
-  const onClose = () => {
-    setIsOpen(false);
-  };
+  const { isOpen, onOpen, onClose } = useIsOpen();
+
   return (
     <>
       <SlidingPaneAutoWidth
-        isOpen={isOpenAddEvent}
+        isOpen={isOpen}
         title="Edit Event"
         onRequestClose={onClose}
       >
@@ -157,7 +156,7 @@ function FloatingWeek(props: {
           "event-" +
           props.eventColorNumber
         }
-        onClick={() => setIsOpen(true)}
+        onClick={onOpen}
       >
         {props.event.name}
       </div>

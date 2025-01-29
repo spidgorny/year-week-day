@@ -6,6 +6,7 @@ import { WeekRow } from "./WeekRow";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
 import { EditEventForm } from "@/app/[userId]/[year]/new-event.tsx";
 import { eventInRange } from "@/app/[userId]/[year]/main-table.tsx";
+import { useIsOpen } from "@components/use-is-open.tsx";
 
 export interface IEvent {
   id?: string;
@@ -31,7 +32,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
     minDate: null,
     maxDate: null,
   });
-  const [isOpenAddEvent, setIsOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useIsOpen();
 
   const reportSelected = (date: moment.Moment) => {
     // console.log(date.format('YYYY-MM-DD'));
@@ -76,7 +77,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
     //   endDate: max.format("YYYY-MM-DD"),
     // });
     // fetchData(); // update
-    setIsOpen(true);
+    onOpen();
   };
 
   const resetSelection = () => {
@@ -87,17 +88,17 @@ export function TBodySelection(props: ITBodySelectionProps) {
     }));
   };
 
-  const onClose = () => {
-    setIsOpen(false);
+  const onCloseHere = () => {
+    onClose();
     resetSelection();
   };
 
   return (
     <tbody>
       <SlidingPaneAutoWidth
-        isOpen={isOpenAddEvent}
+        isOpen={isOpen}
         title="Edit Event"
-        onRequestClose={onClose}
+        onRequestClose={onCloseHere}
       >
         <EditEventForm
           userId={props.userId}
@@ -106,7 +107,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
             endDate: state.maxDate?.format("YYYY-MM-DD"),
             name: "",
           }}
-          onClose={onClose}
+          onClose={onCloseHere}
         />
       </SlidingPaneAutoWidth>
 
