@@ -96,7 +96,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
     <tbody>
       <SlidingPaneAutoWidth
         isOpen={isOpenAddEvent}
-        title="Add/Edit Event"
+        title="Edit Event"
         onRequestClose={onClose}
       >
         <EditEventForm

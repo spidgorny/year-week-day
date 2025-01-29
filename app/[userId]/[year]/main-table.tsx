@@ -48,7 +48,7 @@ export default function MainTable(props: { userId: string; year: number }) {
           events={eventsThisYear}
         />
       </Table>
-      <FloatingEvents events={eventsThisYear} />
+      <FloatingEvents userId={props.userId} events={eventsThisYear} />
     </RectContextProvider>
   );
 }

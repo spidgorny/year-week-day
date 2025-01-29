@@ -67,7 +67,7 @@ export function EditEventForm(props: {
     <form onSubmit={run}>
       <input type="hidden" name="id" value={formData.id} />
       <label className="form-label d-block mb-3">
-        Start Date
+        <span onClick={() => console.log(formData)}>Start Date</span>
         <input
           name="startDate"
           type="date"
