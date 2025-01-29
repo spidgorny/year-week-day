@@ -61,6 +61,7 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
   // Mouse event handlers
   const handleMouseDown = (e: MouseEvent) => {
     e.preventDefault();
+    if (e.buttons !== 1) return;
     setMouseDown(true);
     reportSelected(date);
   };
@@ -73,7 +74,7 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
 
   const handleMouseEnter = (e: MouseEvent) => {
     e.preventDefault();
-    if (e instanceof MouseEvent && e.buttons !== 1) return;
+    if (e.buttons !== 1) return;
     reportSelected(date);
   };
 

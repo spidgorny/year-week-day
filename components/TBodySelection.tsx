@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { WeekRow } from "./WeekRow";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
@@ -59,6 +59,15 @@ export function TBodySelection(props: ITBodySelectionProps) {
       }
     });
   };
+
+  useEffect(() => {
+    const onKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        resetSelection();
+      }
+    };
+    document.addEventListener("keypress", onKeyPress);
+  }, []);
 
   const reportMouseUp = async (date: moment.Moment) => {
     if (!state.minDate || !state.maxDate) {
