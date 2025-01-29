@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { Button, Spinner } from "react-bootstrap";
-import { HStack } from "@components/h-stack.tsx";
+import {MouseEventHandler, ReactNode} from "react";
+import {Button, Spinner} from "react-bootstrap";
+import {HStack} from "@components/h-stack.tsx";
 
 export function SaveButton({
   children,
@@ -14,7 +14,7 @@ export function SaveButton({
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   isWorking?: boolean;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
 }) {
   return (

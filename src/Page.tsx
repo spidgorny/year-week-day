@@ -2,9 +2,9 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Generator } from "@/model/generator";
+import {Generator} from "@lib/model/generator";
 import Table from "react-bootstrap/Table";
-import { TBodySelection } from "@/components/TBodySelection";
+import {TBodySelection} from "@/components/TBodySelection";
 
 export class Page extends React.Component<any, any> {
   generator = new Generator(2020);

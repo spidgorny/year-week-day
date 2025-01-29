@@ -1,11 +1,12 @@
 "use server";
 
-import { IEvent } from "@/components/TBodySelection.tsx";
-import { User } from "@lib/db/user-model.ts";
-import { Event } from "@lib/db/event-model";
-import { getPostgresConnection } from "@lib/pg/get-postgres-connection.ts";
+import {IEvent} from "@/components/TBodySelection.tsx";
+import {User} from "@lib/db/user-model.ts";
+import {Event} from "@lib/db/event-model";
+import {getPostgresConnection} from "@lib/pg/get-postgres-connection.ts";
+import {Repository} from "@lib/pg/repository.ts";
 
-export async function saveEvent(userId: string, eventPayload: IEvent) {
+export async function saveEvent(userId: string, eventPayload: IEvent & {idUser?: string}) {
   console.log("saving", eventPayload);
   await getPostgresConnection();
   const [user] = await User.findOrCreate({
@@ -17,9 +18,11 @@ export async function saveEvent(userId: string, eventPayload: IEvent) {
     },
   });
 
+  const repo = await Repository.init(userId);
   if (eventPayload.id) {
     // UPDATE
-    const event = await Event.findByPk(eventPayload.id);
+    const event = await repo.findEventById(eventPayload.id);
+    delete eventPayload.idUser;
     await event.update({
       ...eventPayload,
       startDate: new Date(eventPayload.startDate),
@@ -38,4 +41,10 @@ export async function saveEvent(userId: string, eventPayload: IEvent) {
   });
 
   return event.toJSON();
+}
+
+export async function deleteEvent(eventId: string) {
+  await getPostgresConnection();
+  const event = await Event.findByPk(eventId);
+  await event.destroy();
 }

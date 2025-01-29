@@ -21,7 +21,7 @@ export function YearSelectorRow(props: { userId: string; iYear: number }) {
         Drag over days or{" "}
         <Button
           onClick={() => setIsOpen(true)}
-          className="d-inline-flex gap-2 align-items-center"
+          className="d-inline-flex gap-2 align-items-center btn-sm"
         >
           <FaPlusCircle /> Add Event
         </Button>

@@ -3,14 +3,14 @@
 import { FormEvent, useState } from "react";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
 import { IEvent } from "@/components/TBodySelection.tsx";
-import { saveEvent } from "@/app/[userId]/[year]/actions.ts";
+import { deleteEvent, saveEvent } from "@/app/[userId]/[year]/actions.ts";
 import { useAsyncWorking } from "spidgorny-react-helpers/use-async-working.ts";
 import { SaveButton } from "@components/save-button.tsx";
 import { useFormData } from "spidgorny-react-helpers/use-form-data.tsx";
 import moment from "moment";
 import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
 import { revalidatePath } from "next/cache";
-import { Alert } from "react-bootstrap";
+import { ErrorAlert } from "@components/error-alert.tsx";
 
 export function EditEventPane(props: { userId: string; event: IEvent }) {
   const [state, setState] = useState(false);
@@ -64,61 +64,79 @@ export function EditEventForm(props: {
     "days",
   );
   return (
-    <form onSubmit={run}>
-      <input type="hidden" name="id" value={formData.id} />
-      <label className="form-label d-block mb-3">
-        <span onClick={() => console.log(formData)}>Start Date</span>
-        <input
-          name="startDate"
-          type="date"
-          className="form-control"
-          value={formData.startDate}
-          onChange={onChange}
-        />
-      </label>
-      <label className="form-label d-block mb-3">
-        End Date
-        <input
-          name="endDate"
-          type="date"
-          className="form-control"
-          value={formData.endDate}
-          onChange={onChange}
-        />
-      </label>
-      <p className="my-3">
-        Duration:{" "}
-        <span className={duration < 0 ? "text-danger" : ""}>
-          {" "}
-          {duration} days
-        </span>
-      </p>
-      <label className="form-label d-block mb-3">
-        Event name
-        <input
-          name="name"
-          className="form-control"
-          value={formData.name}
-          onChange={onChange}
-          autoFocus
-        />
-      </label>
-      <SaveButton
-        type="submit"
-        disabled={isWorking || duration < 0 || formData.name === ""}
-        isWorking={isWorking}
-      >
-        Submit
-      </SaveButton>
-      <div className="mb-3"></div>
-      <ErrorAlert error={error} />
-    </form>
+    <div className="h-100 d-flex flex-column justify-content-between">
+      <form onSubmit={run}>
+        <input type="hidden" name="id" value={formData.id} />
+        <label className="form-label d-block mb-3">
+          <span onClick={() => console.log(formData)}>Start Date</span>
+          <input
+            name="startDate"
+            type="date"
+            className="form-control"
+            value={formData.startDate}
+            onChange={onChange}
+          />
+        </label>
+        <label className="form-label d-block mb-3">
+          End Date
+          <input
+            name="endDate"
+            type="date"
+            className="form-control"
+            value={formData.endDate}
+            onChange={onChange}
+          />
+        </label>
+        <p className="my-3">
+          Duration:{" "}
+          <span className={duration < 0 ? "text-danger" : ""}>
+            {" "}
+            {duration} days
+          </span>
+        </p>
+        <label className="form-label d-block mb-3">
+          Event name
+          <input
+            name="name"
+            className="form-control"
+            value={formData.name}
+            onChange={onChange}
+            autoFocus
+          />
+        </label>
+        <SaveButton
+          type="submit"
+          disabled={isWorking || duration < 0 || formData.name === ""}
+          isWorking={isWorking}
+        >
+          Submit
+        </SaveButton>
+        <div className="mb-3"></div>
+        <ErrorAlert error={error} />
+      </form>
+      <div className="d-flex justify-content-end">
+        <DeleteEventButton event={props.event} onClose={props.onClose} />
+      </div>
+    </div>
   );
 }
 
-export function ErrorAlert(props: { error?: Error }) {
-  if (!props.error) {
-    return null;
-  }
-  return <Alert variant="danger">{props.error.message}</Alert>;
+function DeleteEventButton(props: { event: IEvent; onClose: () => void }) {
+  const { isWorking, error, run } = useAsyncWorking(
+    async (event: MouseEvent) => {
+      event.preventDefault();
+      await deleteEvent(props.event.id);
+      props.onClose();
+    },
+  );
+  return (
+    <SaveButton
+      disabled={isWorking}
+      isWorking={isWorking}
+      onClick={run}
+      className="btn-danger"
+    >
+      Delete Event
+    </SaveButton>
+  );
 }

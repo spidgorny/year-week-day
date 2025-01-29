@@ -1,6 +1,6 @@
-import { getPostgresConnection } from "@lib/pg/get-postgres-connection.ts";
-import { User } from "@lib/db/user-model.ts";
-import { Event } from "@lib/db/event-model.ts";
+import {getPostgresConnection} from "@lib/pg/get-postgres-connection.ts";
+import {User} from "@lib/db/user-model.ts";
+import {Event} from "@lib/db/event-model.ts";
 
 export class Repository {
   protected constructor(protected userId: string) {}
@@ -20,5 +20,10 @@ export class Repository {
         $idUser$: this.userId,
       },
     });
+  }
+
+  async findEventById(id: string) {
+    return await Event.findByPk(id);
+
   }
 }

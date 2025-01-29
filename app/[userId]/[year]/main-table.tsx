@@ -1,15 +1,12 @@
 "use client";
 
-import { Generator } from "@/model/generator";
+import {Generator} from "@lib/model/generator";
 import Table from "react-bootstrap/Table";
-import { IEvent, TBodySelection } from "@/components/TBodySelection";
-import React, { useContext } from "react";
-import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
-import {
-  RectContext,
-  RectContextProvider,
-} from "@/app/[userId]/[year]/rect-context.tsx";
-import { FloatingEvents } from "@/app/[userId]/[year]/floating-events.tsx";
+import {IEvent, TBodySelection} from "@/components/TBodySelection";
+import React, {useContext} from "react";
+import {useEvents} from "@/app/[userId]/[year]/use-events.tsx";
+import {RectContext, RectContextProvider,} from "@/app/[userId]/[year]/rect-context.tsx";
+import {FloatingEvents} from "@/app/[userId]/[year]/floating-events.tsx";
 import moment from "moment";
 
 export function eventInRange(
