@@ -121,7 +121,10 @@ export function TBodySelection(props: ITBodySelectionProps) {
     if (isOpen) {
       return;
     }
-    // e.preventDefault();
+    if (state.minDate || state.maxDate) {
+      // already dragging
+      e.preventDefault(); // Will throw an error if passive
+    }
     const touches = Array.from(e.targetTouches);
     touches.map((touch) => {
       const element = document.elementFromPoint(touch.clientX, touch.clientY);
