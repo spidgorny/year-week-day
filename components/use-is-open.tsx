@@ -6,7 +6,8 @@ export const useIsOpen = () => {
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => {
     setIsOpen(true);
-    router.push(document.location.href + "#edit");
+    // router.push(document.location.href + "#edit");
+    window.history.pushState({ isOpen: true }, null);
   };
   const onClose = () => {
     setIsOpen(false);

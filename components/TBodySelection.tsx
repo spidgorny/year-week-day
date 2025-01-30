@@ -69,7 +69,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
     document.addEventListener("keypress", onKeyPress);
   }, []);
 
-  const reportMouseUp = async (date: moment.Moment) => {
+  const reportMouseUp = () => {
     if (!state.minDate || !state.maxDate) {
       return;
     }
@@ -102,11 +102,53 @@ export function TBodySelection(props: ITBodySelectionProps) {
     resetSelection();
   };
 
+  const handleTouchDown = (e: React.TouchEvent<HTMLTableSectionElement>) => {
+    if (isOpen) {
+      return;
+    }
+    // e.preventDefault();
+    const target = e.target as HTMLElement;
+    let td = target.closest("td");
+    if (!td) {
+      return;
+    }
+    const strDate = td.getAttribute("data-date");
+    // console.log("touch down", td, strDate);
+    reportSelected(moment.utc(strDate));
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLTableSectionElement>) => {
+    if (isOpen) {
+      return;
+    }
+    // e.preventDefault();
+    const touches = Array.from(e.targetTouches);
+    touches.map((touch) => {
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      const td = element.closest("td");
+      const strDate = td.getAttribute("data-date");
+      reportSelected(moment.utc(strDate));
+    });
+    // reportSelected(date);
+  };
+
+  const handleTouchUp = (e: React.TouchEvent<HTMLTableSectionElement>) => {
+    if (isOpen) {
+      return;
+    }
+    e.preventDefault();
+    reportMouseUp();
+  };
+
   return (
-    <tbody>
+    <tbody
+      onTouchStart={handleTouchDown}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchUp}
+    >
       <SlidingPaneAutoWidth
         isOpen={isOpen}
-        title="Edit Event"
+        title="Add Event"
         onRequestClose={onCloseHere}
       >
         <EditEventForm

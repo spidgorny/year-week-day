@@ -1,7 +1,6 @@
 import type { MouseEvent } from "react";
 import React, {
   PropsWithChildren,
-  TouchEvent,
   useContext,
   useEffect,
   useRef,
@@ -78,33 +77,14 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
     reportSelected(date);
   };
 
-  const handleTouchDown = (e: TouchEvent) => {
-    e.preventDefault();
-    setMouseDown(true);
-    reportSelected(date);
-  };
-
-  const handleTouchUp = (e: TouchEvent) => {
-    e.preventDefault();
-    setMouseDown(false);
-    reportMouseUp(date);
-  };
-
-  const handleTouchEnter = (e: TouchEvent) => {
-    e.preventDefault();
-    reportSelected(date);
-  };
-
   return (
     <td
       className={classes.join(" ")}
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseUp={handleMouseUp}
-      onTouchStart={handleTouchDown}
-      onTouchMove={handleTouchEnter}
-      onTouchEnd={handleTouchUp}
       ref={ref}
+      data-date={date.toISOString().substring(0, 10)}
     >
       <span
         className="border border-secondary rounded-full text-body d-inline-block text-center"

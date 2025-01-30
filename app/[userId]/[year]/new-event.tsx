@@ -60,10 +60,8 @@ export function EditEventForm(props: {
     },
   );
 
-  let duration = moment(formData.endDate).diff(
-    moment(formData.startDate),
-    "days",
-  );
+  let duration =
+    moment(formData.endDate).diff(moment(formData.startDate), "days") + 1;
   return (
     <div className="h-100 d-flex flex-column justify-content-between">
       <form onSubmit={run}>
@@ -117,29 +115,42 @@ export function EditEventForm(props: {
       </form>
       <div className="d-flex justify-content-end">
         {props.event.id && (
-          <DeleteEventButton event={props.event} onClose={props.onClose} />
+          <DeleteEventButton
+            userId={props.userId}
+            event={props.event}
+            onClose={props.onClose}
+          />
         )}
       </div>
     </div>
   );
 }
 
-function DeleteEventButton(props: { event: IEvent; onClose: () => void }) {
+function DeleteEventButton(props: {
+  userId: string;
+  event: IEvent;
+  onClose: () => void;
+}) {
+  const { mutate } = useEvents(props.userId);
   const { isWorking, error, run } = useAsyncWorking(
     async (event: MouseEvent) => {
       event.preventDefault();
       await deleteEvent(props.event.id);
+      await mutate();
       props.onClose();
     },
   );
   return (
-    <SaveButton
-      disabled={isWorking}
-      isWorking={isWorking}
-      onClick={run}
-      className="btn-danger"
-    >
-      Delete Event
-    </SaveButton>
+    <div>
+      <SaveButton
+        disabled={isWorking}
+        isWorking={isWorking}
+        onClick={run}
+        className="btn-danger"
+      >
+        Delete Event
+      </SaveButton>
+      <ErrorAlert error={error} />
+    </div>
   );
 }
