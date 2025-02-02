@@ -1,12 +1,15 @@
 "use client";
 
-import {Generator} from "@lib/model/generator";
+import { Generator } from "@lib/model/generator";
 import Table from "react-bootstrap/Table";
-import {IEvent, TBodySelection} from "@/components/TBodySelection";
-import React, {useContext} from "react";
-import {useEvents} from "@/app/[userId]/[year]/use-events.tsx";
-import {RectContext, RectContextProvider,} from "@/app/[userId]/[year]/rect-context.tsx";
-import {FloatingEvents} from "@/app/[userId]/[year]/floating-events.tsx";
+import { IEvent, TBodySelection } from "@/components/TBodySelection";
+import React, { useContext } from "react";
+import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
+import {
+  RectContext,
+  RectContextProvider,
+} from "@/app/[userId]/[year]/rect-context.tsx";
+import { FloatingEvents } from "@/app/[userId]/[year]/floating-events.tsx";
 import moment from "moment";
 
 export function eventInRange(
@@ -53,17 +56,39 @@ export default function MainTable(props: { userId: string; year: number }) {
 function MainTableHead() {
   const { rectState } = useContext(RectContext);
   let weekDayStyle = { width: (1 / 8) * 100 + "%", overflow: "hidden" };
+
+  const isCurrentDayOfWeekClassName = (weekDay: number) => {
+    if (moment().weekday() === weekDay) {
+      return "bg-success";
+    }
+    return "";
+  };
+
   return (
     <thead>
       <tr>
         <td onClick={() => console.table(rectState)}>Week #</td>
-        <td style={weekDayStyle}>Monday</td>
-        <td style={weekDayStyle}>Tuesday</td>
-        <td style={weekDayStyle}>Wednesday</td>
-        <td style={weekDayStyle}>Thursday</td>
-        <td style={weekDayStyle}>Friday</td>
-        <td style={weekDayStyle}>Saturday</td>
-        <td style={weekDayStyle}>Sunday</td>
+        <td style={weekDayStyle} className={isCurrentDayOfWeekClassName(0)}>
+          Monday
+        </td>
+        <td style={weekDayStyle} className={isCurrentDayOfWeekClassName(1)}>
+          Tuesday
+        </td>
+        <td style={weekDayStyle} className={isCurrentDayOfWeekClassName(2)}>
+          Wednesday
+        </td>
+        <td style={weekDayStyle} className={isCurrentDayOfWeekClassName(3)}>
+          Thursday
+        </td>
+        <td style={weekDayStyle} className={isCurrentDayOfWeekClassName(4)}>
+          Friday
+        </td>
+        <td style={weekDayStyle} className={isCurrentDayOfWeekClassName(5)}>
+          Saturday
+        </td>
+        <td style={weekDayStyle} className={isCurrentDayOfWeekClassName(6)}>
+          Sunday
+        </td>
       </tr>
     </thead>
   );

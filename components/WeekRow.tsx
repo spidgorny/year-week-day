@@ -19,6 +19,12 @@ export class WeekRow extends React.Component<IWeekRowProps> {
     let dayOfTheWeek = this.props.monday.clone().add(plus, "d");
     if (dayOfTheWeek.isSame(today, "day")) {
       classes.push("bg-success");
+      return classes.join(" "); // prevent double background-color
+    }
+
+    if (plus >= 5) {
+      classes.push("weekend");
+      return classes.join(" ");
     }
 
     // month, Jan, Feb
@@ -122,7 +128,7 @@ export class WeekRow extends React.Component<IWeekRowProps> {
           {this.day(4)}
         </DayCell>
         <DayCell
-          className={"weekend " + this.isToday(5)}
+          className={this.isToday(5)}
           date={this.date(5)}
           reportSelected={this.props.reportSelected}
           reportMouseUp={this.props.reportMouseUp}
@@ -132,7 +138,7 @@ export class WeekRow extends React.Component<IWeekRowProps> {
           {this.day(5)}
         </DayCell>
         <DayCell
-          className={"weekend " + this.isToday(6)}
+          className={this.isToday(6)}
           date={this.date(6)}
           reportSelected={this.props.reportSelected}
           reportMouseUp={this.props.reportMouseUp}

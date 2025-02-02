@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { WeekRow } from "./WeekRow";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
 import { EditEventForm } from "@/app/[userId]/[year]/new-event.tsx";
 import { eventInRange } from "@/app/[userId]/[year]/main-table.tsx";
 import { useIsOpen } from "@components/use-is-open.tsx";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 export interface IEvent {
   id?: string;
@@ -115,6 +116,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
     const strDate = td.getAttribute("data-date");
     // console.log("touch down", td, strDate);
     reportSelected(moment.utc(strDate));
+    disableBodyScroll(ref.current);
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLTableSectionElement>) => {
@@ -133,6 +135,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
       reportSelected(moment.utc(strDate));
     });
     // reportSelected(date);
+    enableBodyScroll(ref.current);
   };
 
   const handleTouchUp = (e: React.TouchEvent<HTMLTableSectionElement>) => {
@@ -143,11 +146,14 @@ export function TBodySelection(props: ITBodySelectionProps) {
     reportMouseUp();
   };
 
+  const ref = useRef(null);
+
   return (
     <tbody
       onTouchStart={handleTouchDown}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchUp}
+      ref={ref}
     >
       <SlidingPaneAutoWidth
         isOpen={isOpen}

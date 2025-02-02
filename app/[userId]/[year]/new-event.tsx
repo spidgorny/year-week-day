@@ -83,6 +83,7 @@ export function EditEventForm(props: {
             type="date"
             className="form-control"
             value={formData.endDate}
+            min={formData.startDate}
             onChange={onChange}
           />
         </label>
