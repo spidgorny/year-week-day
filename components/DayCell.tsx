@@ -37,7 +37,7 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
 
   useEffect(() => {
     setRectState(date, rect);
-  }, [rect.left, rect.top, rect.width, rect.height]);
+  }, [rect.left, rect.top, rect.width, rect.height, date, setRectState]);
 
   const classes: string[] = [];
   const eventNames: string[] = [];

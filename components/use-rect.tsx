@@ -40,7 +40,7 @@ export const useRect = (ref: RefObject<HTMLTableCellElement>) => {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, [ref.current]);
+  }, [ref, handleResize]);
 
   return rect;
 };

@@ -12,7 +12,7 @@ export default function Home() {
       localStorage.setItem("userId", userId);
     }
     router.push(`/${userId}`);
-  }, []);
+  }, [router]);
 
   return <div>Loading...</div>;
 }
