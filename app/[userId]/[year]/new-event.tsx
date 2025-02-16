@@ -104,6 +104,16 @@ export function EditEventForm(props: {
             autoFocus
           />
         </label>
+        <label className="form-label d-block mb-3">
+          Details
+          <textarea
+            name="details"
+            className="form-control"
+            value={formData.details}
+            onChange={onChange}
+            rows={10}
+          />
+        </label>
         <SaveButton
           type="submit"
           disabled={isWorking || duration < 0 || formData.name === ""}

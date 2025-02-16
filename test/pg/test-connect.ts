@@ -6,7 +6,7 @@ const logger = new Logger("test-connect");
 
 void runTest(async () => {
   const sequelize = await getPostgresConnection();
-  await sequelize.sync();
+  await sequelize.sync({ alter: true });
   let [tables] = await sequelize.query(
     "SELECT tablename\n" +
       "FROM pg_catalog.pg_tables\n" +

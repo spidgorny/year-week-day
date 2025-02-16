@@ -37,4 +37,8 @@ export class Event extends Model<
   @Attribute(DataTypes.DATEONLY)
   @NotNull
   declare endDate: Date;
+
+  @Attribute({ type: DataTypes.TEXT, defaultValue: "" })
+  @NotNull
+  declare details: string;
 }

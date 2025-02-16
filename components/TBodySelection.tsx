@@ -14,6 +14,7 @@ export interface IEvent {
   name: string;
   startDate: string; // date from JSON
   endDate: string; // date from JSON
+  details: string;
 }
 
 interface ITBodySelectionProps {
@@ -166,6 +167,7 @@ export function TBodySelection(props: ITBodySelectionProps) {
             startDate: state.minDate?.format("YYYY-MM-DD"),
             endDate: state.maxDate?.format("YYYY-MM-DD"),
             name: "",
+            details: "",
           }}
           onClose={onCloseHere}
         />
