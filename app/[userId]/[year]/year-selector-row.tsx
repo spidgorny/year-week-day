@@ -41,6 +41,7 @@ export function YearSelectorRow(props: { userId: string; iYear: number }) {
                 .toISOString()
                 .substring(0, 10),
               name: "",
+              details: "",
             }}
             onClose={onClose}
           />
