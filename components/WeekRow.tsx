@@ -5,8 +5,8 @@ import { IEvent } from "./TBodySelection";
 
 interface IWeekRowProps {
   monday: moment.Moment;
-  reportSelected: (date: moment.Moment) => void;
-  reportMouseUp: (date: moment.Moment) => void;
+  reportSelected?: (date: moment.Moment) => void;
+  reportMouseUp?: (date: moment.Moment) => void;
   minSelected: moment.Moment | null;
   maxSelected: moment.Moment | null;
   events: IEvent[];

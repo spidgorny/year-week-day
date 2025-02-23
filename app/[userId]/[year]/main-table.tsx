@@ -2,7 +2,11 @@
 
 import { Generator } from "@lib/model/generator";
 import Table from "react-bootstrap/Table";
-import { IEvent, TBodySelection } from "@/components/TBodySelection";
+import {
+  IEvent,
+  InsideTBody,
+  TBodySelection,
+} from "@/components/TBodySelection";
 import React, { useContext } from "react";
 import { useEvents } from "@/app/[userId]/[year]/use-events.tsx";
 import {
@@ -11,6 +15,7 @@ import {
 } from "@/app/[userId]/[year]/rect-context.tsx";
 import { FloatingEvents } from "@/app/[userId]/[year]/floating-events.tsx";
 import moment from "moment";
+import { useMediaQuery } from "usehooks-ts";
 
 export function eventInRange(
   event: IEvent,
@@ -36,6 +41,28 @@ export default function MainTable(props: { userId: string; year: number }) {
   const eventsThisYear = events.filter((x) =>
     eventInRange(x, yearStart, yearEnd),
   );
+
+  const isMobile = useMediaQuery("(max-width: 800px)");
+
+  if (isMobile) {
+    // no need to react on mouse drag
+    return (
+      <RectContextProvider>
+        <Table className="table-fixed">
+          <MainTableHead />
+          <tbody>
+            <InsideTBody
+              weeks={weeks}
+              minDate={null}
+              maxDate={null}
+              events={events}
+            />
+          </tbody>
+        </Table>
+        <FloatingEvents userId={props.userId} events={eventsThisYear} />
+      </RectContextProvider>
+    );
+  }
 
   return (
     <RectContextProvider>

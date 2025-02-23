@@ -15,8 +15,8 @@ import { RectContext } from "@/app/[userId]/[year]/rect-context.tsx";
 interface IDayCellProps {
   className: string;
   date: moment.Moment;
-  reportSelected: (date: moment.Moment) => void;
-  reportMouseUp: (date: moment.Moment) => void;
+  reportSelected?: (date: moment.Moment) => void;
+  reportMouseUp?: (date: moment.Moment) => void;
   isSelected?: boolean;
   events: IEvent[];
 }
@@ -62,19 +62,25 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
     e.preventDefault();
     if (e.buttons !== 1) return;
     setMouseDown(true);
-    reportSelected(date);
+    if (reportSelected) {
+      reportSelected(date);
+    }
   };
 
   const handleMouseUp = (e: MouseEvent) => {
     e.preventDefault();
     setMouseDown(false);
-    reportMouseUp(date);
+    if (reportMouseUp) {
+      reportMouseUp(date);
+    }
   };
 
   const handleMouseEnter = (e: MouseEvent) => {
     e.preventDefault();
     if (e.buttons !== 1) return;
-    reportSelected(date);
+    if (reportSelected) {
+      reportSelected(date);
+    }
   };
 
   return (
@@ -85,6 +91,9 @@ export const DayCell: React.FC<PropsWithChildren<IDayCellProps>> = ({
       onMouseUp={handleMouseUp}
       ref={ref}
       data-date={date.toISOString().substring(0, 10)}
+      style={{
+        fontSize: "12px",
+      }}
     >
       <span
         className="border border-secondary rounded-full text-body d-inline-block text-center"

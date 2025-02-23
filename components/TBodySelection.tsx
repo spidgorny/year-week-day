@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import { WeekRow } from "./WeekRow";
 import { SlidingPaneAutoWidth } from "@components/sliding-pane-auto-width.tsx";
 import { EditEventForm } from "@/app/[userId]/[year]/new-event.tsx";
@@ -172,20 +172,41 @@ export function TBodySelection(props: ITBodySelectionProps) {
           onClose={onCloseHere}
         />
       </SlidingPaneAutoWidth>
+      <InsideTBody
+        weeks={props.weeks}
+        minDate={state.minDate}
+        maxDate={state.maxDate}
+        events={props.events}
+        reportSelected={reportSelected}
+        reportMouseUp={reportMouseUp}
+      />
+    </tbody>
+  );
+}
 
+export function InsideTBody(props: {
+  weeks: Moment[];
+  minDate: Moment;
+  maxDate: Moment;
+  events: IEvent[];
+  reportSelected?: (date: moment.Moment) => void;
+  reportMouseUp?: (date: moment.Moment) => void;
+}) {
+  return (
+    <>
       {props.weeks.map((monday: moment.Moment) => (
         <WeekRow
           key={monday.format("YYYY-MM-DD")}
           monday={monday}
-          reportSelected={reportSelected}
-          reportMouseUp={reportMouseUp}
-          minSelected={state.minDate}
-          maxSelected={state.maxDate}
+          reportSelected={props.reportSelected}
+          reportMouseUp={props.reportMouseUp}
+          minSelected={props.minDate}
+          maxSelected={props.maxDate}
           events={props.events.filter((x) =>
             eventInRange(x, monday, monday.clone().add(1, "weeks")),
           )}
         />
       ))}
-    </tbody>
+    </>
   );
 }
